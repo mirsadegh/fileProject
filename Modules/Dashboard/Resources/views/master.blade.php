@@ -10,6 +10,11 @@
         @yield('content')
     </div>
 </div>
+
+
+
 </body>
-@include('dashboard::layout.foot')
+    @include('dashboard::layout.foot')
+    @include('dashboard::alerts.sweetalert.success')
+    @include('dashboard::alerts.sweetalert.error')
 </html>

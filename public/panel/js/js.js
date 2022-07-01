@@ -213,25 +213,61 @@ $('.discounts #discounts-field-1').on('click', function (e) {
 });
 
 function deleteItem(event, route , element = 'tr') {
-    event.preventDefault();
-    if (confirm('آیا از حذف این آیتم اطمینان دارید؟')) {
-        $.post(route, {_method: "delete", _token: $('meta[name="_token"]').attr('content')})
-            .done(function (response) {
-                event.target.closest(element).remove()
-                $.toast({
-                    heading: 'عملیات موفق',
-                    text: response.message,
-                    showHideTransition: 'slide',
-                    icon: 'success'
-                })
-            })
-            .fail(function (response) {
-                $.toast({
-                    heading: 'عملیات ناموفق',
-                    text: response.message,
-                    showHideTransition: 'slide',
-                    icon: 'error'
-                })
-            })
-    }
+        event.preventDefault();
+        const swalWithBootstrapButtons = Swal.mixin({
+
+            customClass:{
+                confirmButton: 'btn btn-success mx-2',
+                cancelButton:  'btn btn-danger mx-2',
+            },
+            buttonsStyling: false,
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: 'آیا از حذف کردن داده مطمن هستید؟',
+               text: "شما میتوانید درخواست خود را لغو نمایید",
+                icon: 'warning',
+                showCancelButton: true,
+               confirmButtonText: 'بله داده حذف شود.',
+               cancelButtonText: 'خیر درخواست لغو شود.',
+               reverseButtons: true
+               }).then((result) => {
+
+                   if(result.value == true){
+
+                    $.post(route, {_method: "delete", _token: $('meta[name="_token"]').attr('content')})
+                    .done(function (response) {
+                        event.target.closest(element).remove()
+                        $.toast({
+                            heading: 'عملیات موفق',
+                            text: response.message,
+                            showHideTransition: 'slide',
+                            icon: 'success'
+                        })
+                    })
+                    .fail(function (response) {
+                        $.toast({
+                            heading: 'عملیات ناموفق',
+                            text: response.message,
+                            showHideTransition: 'slide',
+                            icon: 'error'
+                        })
+                    })
+
+                   }
+                   else if(result.dismiss === Swal.DismissReason.cancel){
+                       swalWithBootstrapButtons.fire({
+                                title: 'لغو درخواست',
+                                text: "درخواست شما لغو شد",
+                               icon: 'error',
+                              confirmButtonText: 'باشه.'
+                       })
+                   }
+
+               })
+
+
+
+
+
 }

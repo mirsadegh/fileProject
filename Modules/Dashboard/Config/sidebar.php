@@ -2,7 +2,7 @@
 
 return [
     "items" => [
-      "dashboard" => []
-
+      "dashboard" => [],
+      "categories" =>[],
     ]
 ];
