@@ -2,7 +2,8 @@
 
 return [
     "items" => [
-      "dashboard" => [],
-      "categories" =>[],
+      'dashboard' => [],
+      'categories' =>[],
+      'rolePermissions' => []
     ]
 ];

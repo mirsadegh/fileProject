@@ -22,6 +22,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+       
         $categories = $this->catRepo->all();
         return view('category::index',compact('categories'));
     }
@@ -65,7 +66,7 @@ class CategoryController extends Controller
          $category =  $this->catRepo->update($request->all(),$id);
 
          return redirect()->route('admin.categories.index')->with('swal-success','دسته بندی مورد نظر با موفقیت برروزرسانی گردید.');
-         
+
     }
 
     /**
