@@ -5,9 +5,8 @@ namespace Modules\RolePermission\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
-class RolePermissionDatabaseSeeder extends Seeder
+class PermissionDatabaseTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,10 +16,8 @@ class RolePermissionDatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-
-        Role::findOrCreate('teach')->givePermissionTo(['teach']);
-
-        $this->call(PermissionDatabaseTableSeeder::class);
+        Permission::findOrCreate('teach');
+        Permission::findOrCreate('manage_course');
 
         // $this->call("OthersTableSeeder");
     }

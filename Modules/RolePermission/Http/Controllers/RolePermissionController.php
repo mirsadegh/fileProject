@@ -5,8 +5,7 @@ namespace Modules\RolePermission\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+
 use Illuminate\Contracts\Support\Renderable;
 use Modules\RolePermission\Repositories\RoleRepo;
 use Modules\RolePermission\Http\Requests\RoleRequest;

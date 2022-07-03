@@ -51,7 +51,7 @@ class UserRepo
 
     public function getTeachers()
     {
-       return User::Permission('teach')->get();
+        return User::Permission('teach')->get();
     }
 
     public function findById($id)

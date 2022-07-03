@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Spatie\Permission\Models\Permission;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,14 +11,6 @@ use Spatie\Permission\Models\Permission;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-Route::get('/test', function () {
-    // Permission::create([
-    //   'name' => 'manage_RolePermission',
-    // ]);
-       auth()->user()->givePermissionTo('teach');
-       return auth()->user()->permissions;
-
+Route::middleware('auth')->group(function() {
+    Route::resource('/courses', 'CourseController');
 });
