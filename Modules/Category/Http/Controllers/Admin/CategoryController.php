@@ -2,9 +2,10 @@
 
 namespace Modules\Category\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+
 use Modules\Category\Repositories\CatRepo;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Category\Http\Requests\CategoryRequest;
@@ -22,7 +23,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-       
+
         $categories = $this->catRepo->all();
         return view('category::index',compact('categories'));
     }

@@ -2,8 +2,10 @@
 
 namespace Modules\RolePermission\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\RolePermission\Entities\Permission;
 
 class RolePermissionServiceProvider extends ServiceProvider
 {
@@ -40,6 +42,9 @@ class RolePermissionServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->loadJsonTranslationsFrom(__DIR__."/../Resources/lang/");
+        Gate::before(function ($user){
+            return $user->hasPermissionTo(Permission::PERMISSION_SUPER_ADMIN) ? true: null;
+        });
     }
 
     /**

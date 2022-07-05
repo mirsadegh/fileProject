@@ -263,11 +263,36 @@ function deleteItem(event, route , element = 'tr') {
                               confirmButtonText: 'باشه.'
                        })
                    }
-
                })
 
+}
 
+function updateConfirmationStatus(event, route, message, status, field = 'confirmation_status', parent = 'tr', target= 'td.') {
+    event.preventDefault();
+    if(confirm(message)){
+        $.post(route, { _method: "PATCH", _token: $('meta[name="_token"]').attr('content') })
+            .done(function (response) {
+                $(event.target).closest(parent).find(target + field).text(status);
+                if (status == "تایید شده") {
+                    $(event.target).closest(parent).find(target + field).html("<span class='text-success'>" + status + "</span>");
+                }else{
+                    $(event.target).closest(parent).find(target + field).html("<span class='text-error'>" + status + "</span>");
+                }
 
-
-
+                $.toast({
+                    heading: 'عملیات موفق',
+                    text: response.message,
+                    showHideTransition: 'slide',
+                    icon: 'success'
+                })
+            })
+            .fail(function (response) {
+                $.toast({
+                    heading: 'عملیات ناموفق',
+                    text: response.message,
+                    showHideTransition: 'slide',
+                    icon: 'error'
+                })
+            })
+    }
 }

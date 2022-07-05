@@ -3,5 +3,10 @@
     "Dashboard": true,
     "Category": true,
     "RolePermission": true,
-    "Course": true
+    "Course": true,
+    "Media": true,
+    "TestModule": true,
+    "Test12": true,
+    "Test1": true,
+    "Common": true
 }

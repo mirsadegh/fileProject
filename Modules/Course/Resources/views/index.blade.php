@@ -66,8 +66,7 @@
                                     @endcan
 
                                 <a href="" target="_blank" class="item-eye mlg-15" title="مشاهده"></a>
-                                <a href="{{ route('courses.edit',$course->id) }}" class="item-edit mlg-15"
-                                   title="ویرایش"></a>
+                                <a href="{{ route('courses.edit',$course->id) }}" class="item-edit mlg-15" title="ویرایش"></a>
                             </td>
                         </tr>
                     @endforeach

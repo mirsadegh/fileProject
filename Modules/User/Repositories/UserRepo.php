@@ -16,12 +16,12 @@ class UserRepo
 
     public function findOtpByTokenUsedTime($token)
     {
-       return Otp::where('token', $token)->where('used', 0)->where('created_at', '>=', Carbon::now()->subMinute(5)->toDateTimeString())->first();
+       return Otp::where('token', $token)->where('used', 0)->where('created_at', '>=', Carbon::now()->subMinute(5)->toDateTimeString())->firstOrFail();
     }
 
     public function findOtpByTokenforResend($token)
     {
-       return Otp::where('token',$token)->where('created_at','<=',Carbon::now()->subMinutes(5)->toDateTimeString())->first();
+       return Otp::where('token',$token)->where('created_at','<=',Carbon::now()->subMinutes(5)->toDateTimeString())->firstOrFail();
     }
 
     public function findOrCreateUserByEmail($email)
@@ -46,7 +46,7 @@ class UserRepo
 
     public function otpCreate($otpInputs)
     {
-        Otp::create($otpInputs);
+       return Otp::create($otpInputs);
     }
 
     public function getTeachers()

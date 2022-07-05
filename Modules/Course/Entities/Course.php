@@ -4,6 +4,7 @@ namespace Modules\Course\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Media\Entities\Media;
 
 class Course extends Model
 {
@@ -30,5 +31,10 @@ class Course extends Model
     protected static function newFactory()
     {
         return \Modules\Course\Database\factories\CourseFactory::new();
+    }
+
+    public function banner()
+    {
+        return $this->belongsTo(Media::class, 'banner_id');
     }
 }

@@ -2,8 +2,12 @@
 
 namespace Modules\Course\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Course\Entities\Course;
+use Modules\Course\Policies\CoursePolicy;
+use Modules\RolePermission\Entities\Permission;
 
 class CourseServiceProvider extends ServiceProvider
 {
@@ -29,6 +33,7 @@ class CourseServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
         $this->showSidebar();
+
     }
 
     /**
@@ -40,6 +45,8 @@ class CourseServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->loadJsonTranslationsFrom(__DIR__."/../Resources/lang/");
+        Gate::policy(Course::class,CoursePolicy::class);
+
     }
 
     /**
