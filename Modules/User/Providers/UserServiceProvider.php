@@ -2,6 +2,9 @@
 
 namespace Modules\User\Providers;
 
+use Modules\User\Entities\User;
+use Illuminate\Support\Facades\Gate;
+use Modules\User\Policies\UserPolicy;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -28,6 +31,7 @@ class UserServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->showSidebar();
     }
 
     /**
@@ -38,6 +42,7 @@ class UserServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        Gate::policy(User::class, UserPolicy::class);
     }
 
     /**
@@ -108,5 +113,14 @@ class UserServiceProvider extends ServiceProvider
             }
         }
         return $paths;
+    }
+
+     public function showSidebar()
+    {
+        config()->set('sidebar.items.users',[
+           "icon" => "i-users",
+           "title" => "کاربران",
+           "url" => url('admin/users')
+        ]);
     }
 }

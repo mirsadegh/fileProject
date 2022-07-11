@@ -18,10 +18,11 @@ Route::get('/', function () {
     return view('index');
 });
 Route::get('/test', function () {
-     Permission::create([
-       'name' => 'super_admin',
-     ]);
+    //  Permission::create([
+    //    'name' => 'super_admin',
+    //  ]);
        auth()->user()->givePermissionTo('super_admin');
+
        return auth()->user()->permissions;
 
 });

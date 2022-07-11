@@ -269,23 +269,40 @@ function deleteItem(event, route , element = 'tr') {
 
 function updateConfirmationStatus(event, route, message, status, field = 'confirmation_status', parent = 'tr', target= 'td.') {
     event.preventDefault();
-    if(confirm(message)){
-        $.post(route, { _method: "PATCH", _token: $('meta[name="_token"]').attr('content') })
-            .done(function (response) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass:{
+            confirmButton: 'btn btn-success mx-2',
+            cancelButton:  'btn btn-danger mx-2',
+        },
+        buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons.fire({
+           title: status,
+           text: message,
+            icon: 'warning',
+            showCancelButton: true,
+           confirmButtonText: 'بله',
+           cancelButtonText: 'خیر درخواست لغو شود.',
+           reverseButtons: true
+           }).then((result) => {
+
+               if(result.value == true){
+                  $.post(route, { _method: "PATCH", _token: $('meta[name="_token"]').attr('content') })
+                 .done(function (response) {
                 $(event.target).closest(parent).find(target + field).text(status);
-                if (status == "تایید شده") {
+                if (status == "تایید شده" ||status == "تکمیل شده") {
                     $(event.target).closest(parent).find(target + field).html("<span class='text-success'>" + status + "</span>");
                 }else{
                     $(event.target).closest(parent).find(target + field).html("<span class='text-error'>" + status + "</span>");
                 }
-
                 $.toast({
                     heading: 'عملیات موفق',
                     text: response.message,
                     showHideTransition: 'slide',
                     icon: 'success'
                 })
-            })
+             })
             .fail(function (response) {
                 $.toast({
                     heading: 'عملیات ناموفق',
@@ -294,5 +311,14 @@ function updateConfirmationStatus(event, route, message, status, field = 'confir
                     icon: 'error'
                 })
             })
-    }
+          }
+               else if(result.dismiss === Swal.DismissReason.cancel){
+                swalWithBootstrapButtons.fire({
+                         title: 'لغو درخواست',
+                         text: "درخواست شما لغو شد",
+                        icon: 'error',
+                       confirmButtonText: 'باشه.'
+                })
+         }
+      })
 }

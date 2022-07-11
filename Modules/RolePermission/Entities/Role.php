@@ -18,7 +18,7 @@ class Role extends RolePackage
     }
 
     const ROLE_TEACHER = 'teacher';
-    const ROLE_SUPER_ADMIN = 'super admin';
+    const ROLE_SUPER_ADMIN = 'super_admin';
     const ROLE_STUDENT = 'student';
 
     static $roles = [

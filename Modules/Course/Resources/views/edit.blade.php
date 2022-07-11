@@ -1,4 +1,4 @@
-@extends('Dashboard::master')
+@extends('dashboard::master')
 
 @section('breadcrumb')
     <li><a href="{{ route('courses.index') }}" title="دوره">دوره</a></li>
@@ -34,7 +34,7 @@
 
                 <x-select name="type" required>
                     <option value="">نوع دوره</option>
-                    @foreach(\Sadegh\Course\Models\Course::$types as $type)
+                    @foreach(\Modules\Course\Entities\Course::$types as $type)
                         <option value="{{ $type }}" @if($type == old('type',$course->type)) selected @endif>
                             @lang($type)
                         </option>
@@ -43,7 +43,7 @@
 
                 <x-select name="status" required>
                     <option value="">وضعیت دوره</option>
-                    @foreach(\Sadegh\Course\Models\Course::$statuses as $status)
+                    @foreach(\Modules\Course\Entities\Course::$statuses as $status)
                         <option value="{{ $status }}" @if($status == old('status',$course->status)  ) selected @endif>
                             @lang($status)
                         </option>
@@ -64,7 +64,7 @@
 
 
 
-                <x-textarea placeholder="توضیحات دوره" name="body" value="{{ $course->body  }}"  />
+                <x-text-area placeholder="توضیحات دوره" name="body" value="{{ $course->body  }}"  />
                 <br>
                 <button class="btn btn-webamooz_net">بروزرسانی دوره</button>
             </form>

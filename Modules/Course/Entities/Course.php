@@ -5,6 +5,7 @@ namespace Modules\Course\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Media\Entities\Media;
+use Modules\User\Entities\User;
 
 class Course extends Model
 {
@@ -36,5 +37,10 @@ class Course extends Model
     public function banner()
     {
         return $this->belongsTo(Media::class, 'banner_id');
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class,'teacher_id');
     }
 }

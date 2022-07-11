@@ -18,9 +18,9 @@ class Permission extends PermissionPackage
     }
 
     const PERMISSION_MANAGE_CATEGORIES = 'manage_categories';
-    const PERMISSION_MANAGE_Users = 'manage users';
-    const PERMISSION_MANAGE_COURSES = 'manage courses';
-    const PERMISSION_MANAGE_OWN_COURSES = 'manage own courses';
+    const PERMISSION_MANAGE_Users = 'manage_users';
+    const PERMISSION_MANAGE_COURSES = 'manage_courses';
+    const PERMISSION_MANAGE_OWN_COURSES = 'manage_own_courses';
     const PERMISSION_MANAGE_ROLE_PERMISSIONS = 'manage_role_permissions';
     const PERMISSION_TEACH = 'teach';
     const PERMISSION_SUPER_ADMIN = 'super_admin';

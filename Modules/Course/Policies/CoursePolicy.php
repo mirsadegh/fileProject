@@ -22,6 +22,6 @@ class CoursePolicy
 
     public function manage(User $user)
     {
-        return $user->hasPermissionTo(Permission::PERMISSION_MANAGE_CATEGORIES);
+        return $user->hasPermissionTo(Permission::PERMISSION_MANAGE_COURSES);
     }
 }

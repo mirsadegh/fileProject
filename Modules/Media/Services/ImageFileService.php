@@ -53,9 +53,11 @@ class ImageFileService extends DefaultFileService implements FileServiceContract
        return "/storage/". $media->files['300'];
     }
 
-    public static function delete(Media $media)
+    public static function delete($media)
     {
-        // TODO: Implement delete() method.
+        foreach ($media->files as $file) {
+            Storage::delete('public\\'.$file);
+        }
     }
 
     public static function stream(Media $media)

@@ -629,6 +629,9 @@ textarea {
     content: "\E0f7";
 }
 
+
+
+
 .sidebar__nav .i-ads a::before {
     content: "\E00b";
 }
@@ -1011,6 +1014,11 @@ textarea {
 }
 .item-lock:before {
     content: '\E0c4';
+    font-size: 16px;
+
+}
+.item-slideshow:before {
+    content: "\E0f7";
     font-size: 16px;
 
 }
@@ -2144,3 +2152,7 @@ span.tagRemove:hover {
         --bs-btn-disabled-border-color: #dc3545;
       }
 
+
+      .deleteable-list-item:hover .item-delete{
+         display:inline-block;
+      }

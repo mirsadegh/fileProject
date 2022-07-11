@@ -2,7 +2,7 @@
     <div class="i-file-upload">
         <span>{{ $placeholder }}</span>
         <input type="file" class="file-upload" id="files" name="{{ $name }}" {{ $attributes }} >
-        <x-validation-error field="image"/>
+      
     </div>
     <span class="filesize"></span>
     @if($value)

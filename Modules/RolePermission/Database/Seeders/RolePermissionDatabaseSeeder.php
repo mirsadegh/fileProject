@@ -18,7 +18,7 @@ class RolePermissionDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        Role::findOrCreate('teach')->givePermissionTo(['teach']);
+        
 
         $this->call(PermissionDatabaseTableSeeder::class);
 

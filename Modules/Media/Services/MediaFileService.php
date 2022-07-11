@@ -27,26 +27,22 @@ class MediaFileService
         self::$file = $file;
         self::$dir = "public/";
         self::$isPrivate = false;
-        return self::upload($file, "public");
+        return self::upload();
     }
 
     private static function upload()
     {
-
         $extension = self::normalizeExtension(self::$file);
-
-        foreach (config("mediaFile.MediaTypeServices") as $type => $service) {
+        foreach (config('media.MediaTypeServices') as $type => $service) {
             if (in_array($extension, $service['extensions'])) {
                 return self::uploadByHandler(new $service['handler'], $type);
             }
-
         }
-
     }
 
     static function stream(Media $media){
 
-        foreach (config("mediaFile.MediaTypeServices") as $type => $service) {
+        foreach (config("media.MediaTypeServices") as $type => $service) {
             if ($media->type == $type) {
                 return $service['handler']::stream($media);
             }
@@ -55,7 +51,7 @@ class MediaFileService
 
     public static function delete($media)
     {
-        foreach (config("mediaFile.MediaTypeServices") as $type => $service) {
+        foreach (config("media.MediaTypeServices") as $type => $service) {
             if ($media->type == $type) {
                 return $service['handler']::delete($media);
             }
@@ -89,7 +85,7 @@ class MediaFileService
 
     public static function thumb(Media $media)
     {
-        foreach (config("mediaFile.MediaTypeServices") as $type => $service) {
+        foreach (config("media.MediaTypeServices") as $type => $service) {
             if ($media->type == $type) {
                 return $service['handler']::thumb($media);
             }
@@ -99,7 +95,7 @@ class MediaFileService
     public static function getExtensions()
     {
         $extensions = [];
-        foreach (config("mediaFile.MediaTypeServieces") as $service) {
+        foreach (config("media.MediaTypeServices") as $service) {
              foreach ($service['extensions'] as $extension){
                  $extensions[] = $extension;
              }

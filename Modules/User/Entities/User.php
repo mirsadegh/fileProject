@@ -3,8 +3,10 @@
 namespace Modules\User\Entities;
 
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Media\Entities\Media;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Modules\RolePermission\Entities\Role;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -55,4 +57,40 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'mobile_verified_at' => 'datetime',
     ];
+
+    const STATUS_ACTIVE = "active";
+    const STATUS_INACTIVE = "inactive";
+    const STATUS_BAN = "ban";
+    public static $statuses = [
+        self::STATUS_ACTIVE,
+        self::STATUS_INACTIVE,
+        self::STATUS_BAN
+    ];
+
+    public static $defaultUsers = [
+        [
+            'email' => 'admin@site.com',
+            'password' => 'admin',
+            'name' => 'Admin',
+            'role' => Role::ROLE_SUPER_ADMIN
+        ],
+        [
+            'email' => 'teacher@site.com',
+            'password' => 'teacher',
+            'name' => 'Teacher',
+            'role' => Role::ROLE_TEACHER
+        ],
+        [
+            'email' => 'student@site.com',
+            'password' => 'student',
+            'name' => 'Student',
+            'role' => Role::ROLE_STUDENT
+        ]
+    ];
+
+
+    public function image()
+    {
+        return $this->belongsTo(Media::class,'image_id');
+    }
 }

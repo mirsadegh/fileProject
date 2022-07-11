@@ -13,6 +13,16 @@ class CourseRepo
 {
 
 
+   public function paginate()
+    {
+        return Course::paginate();
+    }
+
+   public function findById($id)
+    {
+        return Course::findOrFail($id);
+    }
+
     public function store($values)
     {
         return Course::create([
@@ -31,15 +41,8 @@ class CourseRepo
         ]);
     }
 
-    public function paginate()
-    {
-        return Course::paginate();
-    }
-
-    public function findById($id)
-    {
-        return Course::findOrFail($id);
-    }
+ 
+  
 
     public function update($id, $values)
     {
