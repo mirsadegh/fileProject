@@ -12,8 +12,10 @@ use Modules\Common\Responses\AjaxResponses;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Media\Services\MediaFileService;
 use Modules\User\Http\Requests\AddRoleRequest;
+use Modules\User\Http\Requests\UpdateUserPhoto;
 use Modules\RolePermission\Repositories\RoleRepo;
 use Modules\User\Http\Requests\UpdateUserRequest;
+use Modules\User\Http\Requests\UpdateProfileInformationRequest;
 
 class UserController extends Controller
 {
@@ -79,10 +81,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $userId)
     {
-
         $this->authorize('edit', User::class);
         $user = $this->userRepo->findById($userId);
-
         if ($request->hasFile('image')) {
             $request->request->add(['image_id' => MediaFileService::publicUpload($request->file('image'))->id]);
             if ($user->banner)
@@ -90,10 +90,33 @@ class UserController extends Controller
         } else {
             $request->request->add(['image_id' => $user->image_id]);
         }
-
         $this->userRepo->update($userId, $request);
-        newFeedback();
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.users.index')->with(['swal-success'=>  "کاربر  {$user->name} با موفقیت ویرایش گردید."]);
+    }
+
+    public function updatePhoto(UpdateUserPhoto $request)
+    {
+            $this->authorize('editProfile', User::class);
+            $media = MediaFileService::publicUpload($request->file('userPhoto'));
+            if(auth()->user()->image) auth()->user()->image->delete();
+            auth()->user()->image_id = $media->id;
+            auth()->user()->save();
+
+            return back()->with(['swal-success'=>  "عکس پروفایل با موفقیت ذخیره گردید."]);
+    }
+
+    public function profile()
+    {
+        $this->authorize('editProfile', User::class);
+        return view('user::admin.profile');
+    }
+
+    public function updateProfile(UpdateProfileInformationRequest $request)
+    {
+        $this->authorize('editProfile', User::class);
+        $this->userRepo->updateProfile($request);
+
+        return back()->with(['swal-success'=>'پروفایل با موفقیت برروزرسانی گردید.']);
     }
 
     /**
@@ -121,9 +144,8 @@ class UserController extends Controller
 
         $this->authorize('addRole', User::class);
         $user->assignRole($request->role);
-        newFeedback('موفقیت آمیز', "به کاربر {$user->name} نقش کاربری {$request->role} داده شد.", 'success');
 
-        return back();
+        return back()->with(['swal-success'=>  "به کاربر {$user->name} نقش کاربری {$request->role} داده شد."]);
     }
 
     public function removeRole($userId, $role)

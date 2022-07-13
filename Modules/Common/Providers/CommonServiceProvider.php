@@ -28,7 +28,7 @@ class CommonServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
-        require_once __DIR__.'/../helpers.php';
+        
     }
 
     /**

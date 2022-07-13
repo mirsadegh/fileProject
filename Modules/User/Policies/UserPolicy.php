@@ -55,4 +55,10 @@ class UserPolicy
           return true;
        }
     }
+
+    public function editProfile($user)
+    {
+        if(auth()->check()) return true;
+    
+    }
 }

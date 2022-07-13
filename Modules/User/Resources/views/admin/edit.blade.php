@@ -15,7 +15,7 @@
                 <x-input type="text" name="username" placeholder="نام کاربری" value="{{ $user->username }}" class="text-left"  />
                 <x-input type="text" name="mobile" placeholder="موبایل" value="{{ $user->mobile }}" class="text-left"  />
                 <x-input type="text" name="headline" placeholder="عنوان" value="{{ $user->headline }}" class="text-left"  />
-                    
+
                 <x-select name="status" required>
                     <option value="">وضعیت حساب</option>
                     @foreach(\Modules\User\Entities\User::$statuses as $status)
@@ -24,12 +24,12 @@
                         >@lang($status)</option>
                     @endforeach
                 </x-select>
-                <x-select name="role" >
+                {{-- <x-select name="role" >
                     <option value="">یک نقش کاربری انتخاب کنید</option>
                     @foreach($roles as $role)
                         <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>@lang($role->name)</option>
                     @endforeach
-                </x-select>
+                </x-select> --}}
 
                 <x-file placeholder="آپلود بنر کاربر" name="image" :value="$user->image"/>
                 <x-input type="password" name="password" placeholder="پسورد جدید" value=""  />
@@ -66,7 +66,7 @@
                 </table>
             </div>
         </div>
-        {{-- <div class="col-6 margin-bottom-20">
+        <div class="col-6 margin-bottom-20">
             <p class="box__title">دوره های مدرس</p>
             <div class="table__box">
                 <table class="table">
@@ -88,7 +88,7 @@
                     </tbody>
                 </table>
             </div>
-        </div> --}}
+        </div>
     </div>
 @endsection
 

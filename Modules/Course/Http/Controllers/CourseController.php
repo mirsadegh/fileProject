@@ -22,7 +22,7 @@ class CourseController extends Controller
      */
     public function index(CourseRepo $courseRepo)
     {
-//        $this->authorize('manage',Course::class);
+       $this->authorize('manage',Course::class);
 
         $courses = $courseRepo->paginate();
         return view('course::index',compact('courses'));
@@ -106,7 +106,7 @@ else {
 
 $courseRepo->update($id, $request);
 
-return redirect()->route('courses.index')->with(['swal-success' => 'دوره مورد نظر با موفقیت برروزرساین گردید.']);
+return redirect()->route('courses.index')->with(['swal-success' => 'دوره مورد نظر با موفقیت برروزرسانی گردید.']);
 }
 
 

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use Modules\User\Policies\UserPolicy;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\User\Http\Middleware\StoreUserIp;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -43,6 +44,7 @@ class UserServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         Gate::policy(User::class, UserPolicy::class);
+        $this->app['router']->pushMiddlewareToGroup('web',StoreUserIp::class);
     }
 
     /**
@@ -121,6 +123,11 @@ class UserServiceProvider extends ServiceProvider
            "icon" => "i-users",
            "title" => "کاربران",
            "url" => url('admin/users')
+        ]);
+        config()->set('sidebar.items.usersInformation', [
+            "icon" => "i-user__inforamtion",
+            "title" => "اطلاعات کاربری",
+            "url" => url('admin/users/profile')
         ]);
     }
 }

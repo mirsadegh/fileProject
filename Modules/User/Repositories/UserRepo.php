@@ -5,6 +5,7 @@ namespace Modules\User\Repositories;
 use Carbon\Carbon;
 use Modules\User\Entities\Otp;
 use Modules\User\Entities\User;
+use Modules\RolePermission\Entities\Permission;
 
 
 class UserRepo
@@ -28,7 +29,7 @@ class UserRepo
     {
         $user =  User::where('email', $email)->firstOrCreate(
             ['email'      => $email],
-            ['password'   => '98355154'],
+            ['password'   => bcrypt('98355154')],
             ['activation' => 1],
         );
         return $user;
@@ -38,7 +39,7 @@ class UserRepo
     {
         $user =  User::where('mobile', $emailOrMobile)->firstOrCreate(
             ['mobile'      => $emailOrMobile],
-            ['password'   => '98355154'],
+            ['password'   => bcrypt('98355154')],
             ['activation' => 1],
         );
         return $user;
@@ -81,9 +82,31 @@ class UserRepo
         }
 
         $user = User::find($userId);
-        $user->syncRoles([]);
-        if ($values['role'])
-            $user->assignRole($values['role']);
+
         return User::where('id', $userId)->update($update);
+    }
+
+    public function updateProfile($request)
+    {
+        auth()->user()->name = $request->name;
+        auth()->user()->telegram = $request->telegram;
+        if (auth()->user()->email != $request->email) {
+            auth()->user()->email = $request->email;
+            auth()->user()->email_verified_at = null;
+        }
+
+        if (auth()->user()->hasPermissionTo(Permission::PERMISSION_TEACH)) {
+            auth()->user()->card_number = $request->card_number;
+            auth()->user()->shaba = $request->shaba;
+            auth()->user()->headline = $request->headline;
+            auth()->user()->bio = $request->bio;
+            auth()->user()->username = $request->username;
+        }
+
+        if ($request->password) {
+            auth()->user()->password = bcrypt($request->password);
+        }
+
+        auth()->user()->save();
     }
 }

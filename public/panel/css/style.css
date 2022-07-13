@@ -389,7 +389,7 @@ textarea {
 }
 
 .btn {
-    padding: 7px 25px;
+    padding: 3px 15px;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -397,8 +397,8 @@ textarea {
     user-select: none;
     white-space: nowrap;
     font-weight: 500;
-    border-radius: 40px;
-    cursor: pointer;
+    border-radius: 7px;
+
 }
 
 .btn-webamooz_net {
@@ -2151,6 +2151,12 @@ span.tagRemove:hover {
         --bs-btn-disabled-bg: #dc3545;
         --bs-btn-disabled-border-color: #dc3545;
       }
+
+      .btn-info {
+        color: #fff;
+        background-color: #5bc0de;
+        border-color: #46b8da;
+    }
 
 
       .deleteable-list-item:hover .item-delete{

@@ -24,6 +24,10 @@ Route::group(['middleware' => 'web'],function(){
         Route::middleware('throttle:customer-login-confirm-limiter')->post('login-confirm/{token}',[LoginRegisterController::class,'loginConfirm'])->name('auth.login-confirm');
         Route::middleware('throttle:customer-login-resend-otp-limiter')->get('login-resend-otp/{token}',[LoginRegisterController::class,'loginResendOtp'])->name('auth.login-resend-otp');
     });
+
+
+
 Route::post('/logout',[LoginRegisterController::class,'logout'])->name('logout');
+
 
 });

@@ -4,6 +4,7 @@ namespace Modules\User\Entities;
 
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Media\Entities\Media;
+use Modules\Course\Entities\Course;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Modules\RolePermission\Entities\Role;
@@ -92,5 +93,23 @@ class User extends Authenticatable
     public function image()
     {
         return $this->belongsTo(Media::class,'image_id');
+    }
+
+    public function getThumbAttribute()
+    {
+        if ($this->image)
+            return '/storage/' . $this->image->files[300];
+
+        return '/panel/img/profile.jpg';
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class,'teacher_id');
+    }
+    public function profilePath()
+    {
+        // return null;
+        return $this->username ? route('admin.viewProfile', $this->username) : route('admin.viewProfile', 'username');
     }
 }

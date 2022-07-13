@@ -18,6 +18,9 @@
     "autoload": {
         "psr-4": {
             "Modules\\Common\\": ""
-        }
+        },
+        "files":[
+            "helpers.php"
+        ]
     }
 }

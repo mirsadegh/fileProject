@@ -36,7 +36,7 @@
                                         <a href="" class="item-delete mlg-15 d-none" onclick="deleteItem(event, '{{ route('admin.users.removeRole', ['user' => $user->id, 'role' => $userRole->name]) }}','li')" title="حذف"></a>
                                     </li>
                                 @endforeach
-                                <li><a href="#select-role" rel="modal:open" onclick="setFormAction({{ $user->id }})">افزودن نقش کاربری</a></li>
+                                <li class="btn btn-info"><a href="#select-role" rel="modal:open" onclick="setFormAction({{ $user->id }})">افزودن نقش کاربری</a></li>
                             </ul>
                         </td>
                         <td>{{ $user->created_at }}</td>
@@ -45,8 +45,11 @@
                         <td>
                             <a href="" onclick="deleteItem(event, '{{ route('admin.users.destroy', $user->id) }}')" class="item-delete mlg-15" title="حذف"></a>
                             <a href="{{ route('admin.users.edit', $user->id) }}" class="item-edit mlg-15" title="ویرایش"></a>
-                            <a href="" onclick="updateConfirmationStatus(event, '{{ route('admin.users.manualVerify', $user->id) }}',
+                            @if (!$user->hasVerifiedEmail())
+    <a href="" onclick="updateConfirmationStatus(event, '{{ route('admin.users.manualVerify', $user->id) }}',
                                 'آیا از تایید این آیتم اطمینان دارید؟' , 'تایید شده')" class="item-confirm mlg-15" title="تایید"></a>
+                            @endif
+
                         </td>
                     </tr>
                     @endforeach
@@ -70,12 +73,6 @@
 @endsection
 
 @section('js')
-
-
-    {{-- <script>
-        @include('common::layouts.feedbacks')
-    </script> --}}
-    <!-- Remember to include jQuery :) -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <script>
