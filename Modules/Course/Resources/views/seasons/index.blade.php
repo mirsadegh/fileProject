@@ -4,7 +4,7 @@
         @csrf
         <x-input type="text" name="title" placeholder="عنوان سرفصل" class="text" required />
         <x-input type="text" name="number" placeholder="شماره سرفصل" class="text" />
-        <button type="submit" class="btn btn-webamooz_net">اضافه کردن</button>
+        <button type="submit" class="btn btn-webamooz_net mt-4" style="float: left;">اضافه کردن</button>
     </form>
     <div class="table__box padding-30">
         <table class="table">
@@ -27,27 +27,37 @@
                 <td>
                     <a href="" class="item-delete mlg-15" onclick="deleteItem(event,'{{ route('seasons.destroy',$season->id) }}')" title="حذف"></a>
 
-                    @can(\Sadegh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES)
-                    <a href="" onclick="updateConfirmationStatus(event,'{{ route('seasons.accept',$season->id) }}','آیا از تایید این آیتم اطمینان دارید؟','تایید شده')"
-                       class="item-confirm mlg-15" title="تایید">
+                 @can(\Modules\RolePermission\Entities\Permission::PERMISSION_MANAGE_COURSES)
+                        @if ($season->confirmation_status == \Modules\Course\Entities\Season::CONFIRMATION_STATUS_PENDING)
+                            <a href="" onclick="updateConfirmationStatus(event,'{{ route('seasons.accept',$season->id) }}','آیا از تایید این آیتم اطمینان دارید؟','تایید شده')"
+                            class="item-confirm mlg-15 text-success" title="تایید">
 
-                    </a>
-                    <a href="" onclick="updateConfirmationStatus(event,'{{ route('seasons.reject',$season->id) }}','آیا از رد این آیتم اطمینان دارید؟','رد شده')"
-                       class="item-reject mlg-15" title="رد">
-                    </a>
-
-                    @if($season->status == \Sadegh\Course\Models\Season::STATUS_OPENED)
-                    <a href="" onclick="updateConfirmationStatus(event,'{{ route('seasons.lock',$season->id) }}','آیا از قفل کردن این آیتم اطمینان دارید؟'
-                            ,'قفل شده','status')" class="item-lock mlg-15 text-error" title="قفل">
-                    </a>
-                   @else
-                            <a href="" onclick="updateConfirmationStatus(event,'{{ route('seasons.unlock',$season->id) }}','آیا از  باز کردن این آیتم اطمینان دارید؟'
-                                    ,'بازکردن','status')" class="item-lock mlg-15 text-success" title="بازکردن">
                             </a>
-                   @endif
+                            <a href="" onclick="updateConfirmationStatus(event,'{{ route('seasons.reject',$season->id) }}','آیا از رد این آیتم اطمینان دارید؟','رد شده')"
+                            class="item-reject mlg-15 text-error" title="رد">
+                            </a>
+                        @elseif ($season->confirmation_status == \Modules\Course\Entities\Season::CONFIRMATION_STATUS_ACCEPTED)
+                            <a href="" onclick="updateConfirmationStatus(event,'{{ route('seasons.reject',$season->id) }}','آیا از رد این آیتم اطمینان دارید؟','رد شده')"
+                                class="item-reject mlg-15 text-error" title="رد">
+                            </a>
+                        @elseif ($season->confirmation_status == \Modules\Course\Entities\Season::CONFIRMATION_STATUS_REJECTED)
+                        <a href="" onclick="updateConfirmationStatus(event,'{{ route('seasons.accept',$season->id) }}','آیا از تایید این آیتم اطمینان دارید؟','تایید شده')"
+                            class="item-confirm mlg-15 text-success" title="تایید">
 
+                        </a>
 
-                    @endcan
+                        @endif
+
+                        @if($season->status == \Modules\Course\Entities\Season::STATUS_OPENED)
+                            <a href="" onclick="updateConfirmationStatus(event,'{{ route('seasons.lock',$season->id) }}','آیا از قفل کردن این آیتم اطمینان دارید؟'
+                                    ,'قفل شده','status')" class="item-lock mlg-15 text-error" title="قفل">
+                            </a>
+                        @else
+                                <a href="" onclick="updateConfirmationStatus(event,'{{ route('seasons.unlock',$season->id) }}','آیا از  باز کردن این آیتم اطمینان دارید؟'
+                                        ,'بازکردن','status')" class="item-unlocked mlg-15 text-success" title="بازکردن">
+                                </a>
+                       @endif
+                 @endcan
                     <a href="{{ route('seasons.edit',$season->id) }}" class="item-edit " title="ویرایش"></a>
                 </td>
             </tr>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cyaxaress\User\Rules;
+namespace Modules\User\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 

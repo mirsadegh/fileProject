@@ -107,6 +107,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Course::class,'teacher_id');
     }
+
+    public function seasons()
+    {
+       return $this->hasMany(Season::class);
+    }
     public function profilePath()
     {
         // return null;

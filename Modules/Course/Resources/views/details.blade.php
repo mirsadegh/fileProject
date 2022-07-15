@@ -1,4 +1,4 @@
-@extends('Dashboard::master')
+@extends('dashboard::master')
 @section('breadcrumb')
     <li><a href="{{ route('courses.index') }}" title="دوره"> دوره ها</a></li>
     <li><a href="#" title="جزییات دوره">جزییات دوره</a></li>
@@ -12,7 +12,7 @@
                 <p class="mlg-15">{{ $course->title }}</p>
                 <a class="color-2b4a83" href="{{ route('lessons.create',$course->id) }}">آپلود جلسه </a>
             </div>
-            @can(\Sadegh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES)
+            @can(Modules\RolePermission\Entities\Permission::PERMISSION_MANAGE_COURSES)
             <div class="d-flex item-center flex-wrap margin-bottom-15 operations__btns">
                 <button class="btn all-confirm-btn" onclick="acceptAllLessons('{{ route('lessons.acceptAll', $course->id) }}')">تایید همه جلسات</button>
                 <button class="btn confirm-btn" onclick="acceptMultiple('{{ route('lessons.acceptMultiple',$course->id) }}')">تایید جلسات</button>
@@ -64,14 +64,14 @@
                           </td>
 
                         <td class="status">
-                            @if($lesson->status == \Sadegh\Course\Models\Lesson::STATUS_OPENED)
+                            @if($lesson->status == \Modules\Course\Models\Lesson::STATUS_OPENED)
                                 {{ $lesson->free ? 'همه' : 'شرکت کنندگان' }}
                             @else
                              <span>قفل شده</span>
                             @endif
                         </td>
                         <td>
-                            @can(\Sadegh\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES)
+                            @can(\Modules\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES)
 
                                 <a href="" class="item-delete mlg-15"
                                    onclick="deleteItem(event,'{{ route('lessons.destroy',[$course->id,$lesson->id]) }}')" title="حذف"></a>
@@ -86,7 +86,7 @@
                                 </a>
 
 
-                                @if($lesson->status == \Sadegh\Course\Models\Lesson::STATUS_OPENED)
+                                @if($lesson->status == \Modules\Course\Entities\Lesson::STATUS_OPENED)
                                     <a href="" onclick="updateConfirmationStatus(event,'{{ route('lessons.lock',$lesson->id) }}','آیا از قفل کردن این آیتم اطمینان دارید؟'
                                         ,'قفل شده','status')" class="item-lock mlg-15 text-error" title="قفل">
                                     </a>
@@ -109,7 +109,7 @@
         </div>
         <div class="col-4">
 
-            @include('Courses::seasons.index')
+            @include('course::seasons.index')
 
 
             <div class="col-12 bg-white margin-bottom-15 border-radius-3">
@@ -167,6 +167,6 @@
     @stop
 @section('js')
 <script>
-    @include('Common::layouts.feedbacks')
+    @include('common::layouts.feedbacks')
 </script>
 @stop

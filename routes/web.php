@@ -21,8 +21,8 @@ Route::get('/test', function () {
     //  Permission::create([
     //    'name' => 'super_admin',
     //  ]);
-       auth()->user()->givePermissionTo('super_admin');
+    //    auth()->user()->givePermissionTo('super_admin');
 
-       return auth()->user()->permissions;
-
+    //    return auth()->user()->permissions;
+        // auth()->loginUsingId(1);
 });

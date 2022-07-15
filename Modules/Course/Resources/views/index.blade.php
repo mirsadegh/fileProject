@@ -66,52 +66,48 @@
 
 
     <td>
-    {{--                                    @can(\Modules\RolePermission\Entities\Permission::PERMISSION_MANAGE_COURSES)--}}
+           @can(\Modules\RolePermission\Entities\Permission::PERMISSION_MANAGE_COURSES)
 
-    <a href=""
-    onclick="deleteItem(event,'{{ route('courses.destroy',$course->id) }}')"
-    class="item-delete mlg-15" title="حذف"></a>
-    @if($course->confirmation_status == 'pending')
-    <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.accept',$course->id) }}','آیا از تایید این آیتم اطمینان دارید؟','تایید شده')"
-    class="item-confirm mlg-15" title="تایید">
-    </a>
-    <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.reject',$course->id) }}','آیا از رد این آیتم اطمینان دارید؟','رد شده')"
-    class="item-reject mlg-15" title="رد">
-    </a>
-    @elseif($course->confirmation_status == 'rejected')
-    <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.accept',$course->id) }}','آیا از تایید این آیتم اطمینان دارید؟','تایید شده')"
-    class="item-confirm mlg-15" title="تایید">
-    </a>
-    @elseif($course->confirmation_status == 'accepted')
-    <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.reject',$course->id) }}','آیا از رد این آیتم اطمینان دارید؟','رد شده')"
-    class="item-reject mlg-15" title="رد">
-    </a>
-    @endif
+            <a href=""
+            onclick="deleteItem(event,'{{ route('courses.destroy',$course->id) }}')"
+            class="item-delete mlg-15" title="حذف"></a>
+            @if($course->confirmation_status == 'pending')
+            <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.accept',$course->id) }}','آیا از تایید این آیتم اطمینان دارید؟','تایید شده')"
+            class="item-confirm mlg-15" title="تایید">
+            </a>
+            <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.reject',$course->id) }}','آیا از رد این آیتم اطمینان دارید؟','رد شده')"
+            class="item-reject mlg-15" title="رد">
+            </a>
+            @elseif($course->confirmation_status == 'rejected')
+            <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.accept',$course->id) }}','آیا از تایید این آیتم اطمینان دارید؟','تایید شده')"
+            class="item-confirm mlg-15" title="تایید">
+            </a>
+            @elseif($course->confirmation_status == 'accepted')
+            <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.reject',$course->id) }}','آیا از رد این آیتم اطمینان دارید؟','رد شده')"
+            class="item-reject mlg-15" title="رد">
+            </a>
+            @endif
 
+            @if ($course->status == 'not-completed')
 
-    @if ($course->status == 'not-completed')
+            <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.completed',$course->id) }}','آیا از تکمیل شدن  این آیتم اطمینان دارید؟'
+            ,'تکمیل شده','status')" class="item-slideshow mlg-15" title="تکمیل شده">
+            </a>
+            <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.lock',$course->id) }}','آیا از قفل کردن این آیتم اطمینان دارید؟'
+            ,'قفل شده','status')" class="item-lock mlg-15" title="قفل">
+            </a>
 
-    <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.completed',$course->id) }}','آیا از تکمیل شدن  این آیتم اطمینان دارید؟'
-    ,'تکمیل شده','status')" class="item-slideshow mlg-15" title="تکمیل شده">
-    </a>
-    <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.lock',$course->id) }}','آیا از قفل کردن این آیتم اطمینان دارید؟'
-    ,'قفل شده','status')" class="item-lock mlg-15" title="قفل">
-    </a>
+            @elseif ($course->status == 'completed')
+            <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.lock',$course->id) }}','آیا از قفل کردن این آیتم اطمینان دارید؟'
+            ,'قفل شده','status')" class="item-lock mlg-15" title="قفل">
+            </a>
+            @elseif ($course->status == 'locked')
+            <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.completed',$course->id) }}','آیا از تکمیل شدن این آیتم اطمینان دارید؟'
+            ,'تکمیل شده','status')" class="item-slideshow mlg-15" title="تکمیل شده">
+            </a>
 
-    @elseif ($course->status == 'completed')
-    <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.lock',$course->id) }}','آیا از قفل کردن این آیتم اطمینان دارید؟'
-    ,'قفل شده','status')" class="item-lock mlg-15" title="قفل">
-    </a>
-    @elseif ($course->status == 'locked')
-    <a href="" onclick="updateConfirmationStatus(event,'{{ route('courses.completed',$course->id) }}','آیا از تکمیل شدن این آیتم اطمینان دارید؟'
-    ,'تکمیل شده','status')" class="item-slideshow mlg-15" title="تکمیل شده">
-    </a>
-
-    @endif
-
-
-
-    {{--                                    @endcan--}}
+            @endif
+       @endcan
 
     <a href="" target="_blank" class="item-eye mlg-15" title="مشاهده"></a>
     <a href="{{ route('courses.edit',$course->id) }}" class="item-edit mlg-15" title="ویرایش"></a>

@@ -1,4 +1,4 @@
-@extends('Dashboard::master')
+@extends('dashboard::master')
 
 @section('breadcrumb')
     <li><a href="{{ route('courses.details',$season->course_id) }}" title="{{ $season->course->title }}">{{ $season->course->title }}</a></li>

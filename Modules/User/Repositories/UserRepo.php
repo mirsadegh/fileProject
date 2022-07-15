@@ -30,7 +30,6 @@ class UserRepo
         $user =  User::where('email', $email)->firstOrCreate(
             ['email'      => $email],
             ['password'   => bcrypt('98355154')],
-            ['activation' => 1],
         );
         return $user;
     }
@@ -40,7 +39,7 @@ class UserRepo
         $user =  User::where('mobile', $emailOrMobile)->firstOrCreate(
             ['mobile'      => $emailOrMobile],
             ['password'   => bcrypt('98355154')],
-            ['activation' => 1],
+           
         );
         return $user;
     }

@@ -18,7 +18,7 @@ class Permission extends PermissionPackage
     }
 
     const PERMISSION_MANAGE_CATEGORIES = 'manage_categories';
-    const PERMISSION_MANAGE_Users = 'manage_users';
+    const PERMISSION_MANAGE_USERS = 'manage_users';
     const PERMISSION_MANAGE_COURSES = 'manage_courses';
     const PERMISSION_MANAGE_OWN_COURSES = 'manage_own_courses';
     const PERMISSION_MANAGE_ROLE_PERMISSIONS = 'manage_role_permissions';
@@ -32,7 +32,7 @@ class Permission extends PermissionPackage
         self::PERMISSION_MANAGE_ROLE_PERMISSIONS,
         self::PERMISSION_MANAGE_COURSES,
         self::PERMISSION_MANAGE_OWN_COURSES,
-        self::PERMISSION_MANAGE_Users
+        self::PERMISSION_MANAGE_USERS
     ];
 
 }

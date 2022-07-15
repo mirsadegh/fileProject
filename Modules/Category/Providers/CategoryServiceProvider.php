@@ -4,6 +4,7 @@ namespace Modules\Category\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\RolePermission\Entities\Permission;
 
 class CategoryServiceProvider extends ServiceProvider
 {
@@ -116,7 +117,8 @@ class CategoryServiceProvider extends ServiceProvider
         config()->set('sidebar.items.categories',[
            "icon" => "i-categories",
            "title" => "دسته بندی",
-           "url" => url('admin/categories')
+           "url" => url('admin/categories'),
+           "permission" => Permission::PERMISSION_MANAGE_CATEGORIES
         ]);
     }
 }

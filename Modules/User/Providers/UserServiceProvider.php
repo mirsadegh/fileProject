@@ -8,6 +8,7 @@ use Modules\User\Policies\UserPolicy;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\User\Http\Middleware\StoreUserIp;
+use Modules\RolePermission\Entities\Permission;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -122,12 +123,14 @@ class UserServiceProvider extends ServiceProvider
         config()->set('sidebar.items.users',[
            "icon" => "i-users",
            "title" => "کاربران",
-           "url" => url('admin/users')
+           "url" => url('admin/users'),
+           "permission" => Permission::PERMISSION_MANAGE_USERS
         ]);
         config()->set('sidebar.items.usersInformation', [
             "icon" => "i-user__inforamtion",
             "title" => "اطلاعات کاربری",
-            "url" => url('admin/users/profile')
+            "url" => url('admin/users/profile'),
+
         ]);
     }
 }
