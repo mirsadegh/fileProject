@@ -41,9 +41,9 @@
     <td>{{ $course->id }}</td>
     <td width="80"><img src="{{ $course->banner->thumb }}" alt="" width="80"></td>
     <td><a href=""> {{ $course->title }}</a></td>
-    <td><a href=""> {{ $course->teacher->name }}</a></td>
+    <td><a href=""> {{ $course->teacher->name ?? $course->teacher->email }}</a></td>
     <td>{{ $course->price }}</td>
-    <td><a href="{{ route('courses.details',$course->id) }}">مشاهده</a></td>
+    <td><a href="{{ route('courses.details',$course->id) }}" class="btn btn-info">مشاهده</a></td>
 
     <td>{{ $course->percent }}</td>
 
@@ -120,10 +120,3 @@
     </div>
     </div>
     @endsection
-
-
-
-
-
-
-

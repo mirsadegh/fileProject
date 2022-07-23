@@ -112,6 +112,12 @@ class User extends Authenticatable
     {
        return $this->hasMany(Season::class);
     }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+    
     public function profilePath()
     {
         // return null;

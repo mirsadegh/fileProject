@@ -14,9 +14,7 @@ use Spatie\Permission\Models\Permission;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+
 Route::get('/test', function () {
     //  Permission::create([
     //    'name' => 'super_admin',

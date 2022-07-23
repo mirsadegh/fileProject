@@ -14,7 +14,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\Frontend\Auth\LoginRegisterController;
 
-Route::group(['middleware' => 'web'],function(){
+
 
     Route::group(['middleware' => 'guest'],function (){
         Route::get('login-register',[LoginRegisterController::class,'loginRegisterForm'])->name('auth.login-register-form');
@@ -26,8 +26,9 @@ Route::group(['middleware' => 'web'],function(){
     });
 
 
+    Route::get('users/profile',"UserController@profile")->name('users.profile');
+    Route::post('users/profile',"UserController@updateProfile");
+    Route::any('/logout',[LoginRegisterController::class,'logout'])->name('logout');
 
-Route::post('/logout',[LoginRegisterController::class,'logout'])->name('logout');
 
 
-});

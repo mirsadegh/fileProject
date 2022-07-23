@@ -4,6 +4,7 @@ namespace Modules\Course\Repositories;
 
 use Str;
 use Modules\Course\Entities\Course;
+use Modules\Course\Entities\Lesson;
 
 
 
@@ -41,8 +42,8 @@ class CourseRepo
         ]);
     }
 
- 
-  
+
+
 
     public function update($id, $values)
     {
@@ -71,6 +72,31 @@ class CourseRepo
     {
         return Course::where('id',$id)->update(['status' => $status]);
     }
+
+    public function getCoursesByTeacherId(?int $id)
+    {
+        return Course::where('teacher_id', $id)->get();
+    }
+
+    public function latestCourses()
+    {
+        return Course::where('confirmation_status',Course::CONFIRMATION_STATUS_ACCEPTED)->latest()->take(8)->get();
+    }
+    public function getDuration($id)
+    {
+        return $this->getLessonsQuery($id)->sum('time');
+    }
+
+    private function getLessonsQuery($id)
+    {
+        return Lesson::where('course_id', $id)
+            ->where('confirmation_status', Lesson::CONFIRMATION_STATUS_ACCEPTED);
+    }
+    public function getLessonsCount($id)
+    {
+        return $this->getLessonsQuery($id)->count();
+    }
+
 
 }
 

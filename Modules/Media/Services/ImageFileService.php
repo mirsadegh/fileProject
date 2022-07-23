@@ -56,15 +56,7 @@ class ImageFileService extends DefaultFileService implements FileServiceContract
        return '/panel/img/profile.jpg';
     }
 
-    public static function delete($media)
-    {
-        foreach ($media->files as $file) {
-            Storage::delete('public\\'.$file);
-        }
-    }
 
-    public static function stream(Media $media)
-    {
-        // TODO: Implement stream() method.
-    }
+
+   
 }

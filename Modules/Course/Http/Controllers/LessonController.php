@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Models\Course\Http\Controllers;
+namespace Modules\Course\Http\Controllers;
 
 
 use Illuminate\Http\Request;
 
-use Modules\Course\Models\Lesson;
+use Modules\Course\Entities\Lesson;
 use Modules\Course\Entities\Course;
 use App\Http\Controllers\Controller;
 use Modules\Common\Responses\AjaxResponses;
@@ -34,16 +34,17 @@ class LessonController extends Controller
         $course = $courseRepo->findByid($course);
         $this->authorize('createLesson', $course);
         $seasons = $seasonRepo->getCourseSeasons($course->id);
-        return view('Courses::lessons.create', compact('seasons', 'course'));
+        return view('course::lessons.create', compact('seasons', 'course'));
     }
 
     public function store($course, LessonRequest $request, CourseRepo $courseRepo)
     {
+
         $course = $courseRepo->findByid($course);
         $this->authorize('createLesson', $course);
         $request->request->add(["media_id" => MediaFileService::privateUpload($request->file('lesson_file'))->id ]);
         $this->lessonRepo->store($course->id, $request);
-        newFeedback();
+
         return redirect(route('courses.details', $course->id));
     }
 
@@ -53,7 +54,7 @@ class LessonController extends Controller
         $this->authorize('edit', $lesson);
         $seasons = $seasonRepo->getCourseSeasons($courseId);
         $course = $courseRepo->findByid($courseId);
-        return view('Courses::lessons.edit', compact('lesson', 'seasons', 'course'));
+        return view('course::lessons.edit', compact('lesson', 'seasons', 'course'));
     }
 
     public function update($courseId, $lessonId, LessonRequest $request)
@@ -70,8 +71,8 @@ class LessonController extends Controller
             $request->request->add(['media_id'=> $lesson->media_id]);
         }
         $this->lessonRepo->update($lessonId, $courseId, $request);
-        newFeedback();
-        return redirect(route('courses.details', $courseId));
+
+        return redirect(route('courses.details', $courseId))->with('swal-success','جلسه مورد نظر با موفقیت برروزرسانی گردید.');
     }
     public function accept($id)
     {
@@ -84,7 +85,6 @@ class LessonController extends Controller
     {
         $this->authorize('manage', Course::class);
         $this->lessonRepo->acceptAll($courseId);
-        newFeedback();
         return back();
     }
 
@@ -93,7 +93,6 @@ class LessonController extends Controller
         $this->authorize('manage', Course::class);
         $ids = explode(',', $request->ids);
         $this->lessonRepo->updateConfirmationStatus($ids, Lesson::CONFIRMATION_STATUS_ACCEPTED);
-        newFeedback();
         return back();
     }
 
@@ -102,7 +101,7 @@ class LessonController extends Controller
         $this->authorize('manage', Course::class);
         $ids = explode(',', $request->ids);
         $this->lessonRepo->updateConfirmationStatus($ids, Lesson::CONFIRMATION_STATUS_REJECTED );
-        newFeedback();
+
         return back();
     }
 
@@ -154,7 +153,9 @@ class LessonController extends Controller
             }
             $lesson->delete();
         }
-        newFeedback();
-        return back();
+
+        return back()->with('swal-success','جلسات مورد نظر با موفقیت حذف گردید.');
     }
+
+   
 }

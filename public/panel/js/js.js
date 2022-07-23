@@ -129,196 +129,230 @@ $(document).on('keydown', '.dropdown-select', function (event) {
     }
 });
 
-$(document).ready(function () {
-    create_custom_dropdowns();
-});
-$('.checkedAll').on('click', function (e) {
-    if ($(this).is(':checked', true)) {
-        $(".sub-checkbox").prop('checked', true);
-    } else {
-        $(".sub-checkbox").prop('checked', false);
-    }
-});
-
-jQuery('.delete-btn').on('click', function (e) {
-    var allVals = [];
-    $(".sub-checkbox:checked").each(function () {
-        allVals.push($(this).attr('data-id'));
+    $(document).ready(function () {
+        create_custom_dropdowns();
     });
-    //alert(allVals.length); return false;
-    if (allVals.length <= 0) {
-        alert("یک سطر انتخاب کنید");
-    } else {
-        //$("#loading").show();
-        WRN_PROFILE_DELETE = "آیا مطمئن هستید که می خواهید این سطر را حذف کنید؟";
-        var check = confirm(WRN_PROFILE_DELETE);
-        if (check == true) {
-            //for server side
-            /*
-            var join_selected_values = allVals.join(",");
-
-            $.ajax({
-
-                type: "POST",
-                url: "delete.php",
-                cache:false,
-                data: 'ids='+join_selected_values,
-                success: function(response)
-                {
-                    $("#loading").hide();
-                    $("#msgdiv").html(response);
-                    //referesh table
-                }
-            });*/
-            //for client side
-            $.each(allVals, function (index, value) {
-                $('table tr').filter("[data-row-id='" + value + "']").remove();
-            });
-
-
+    $('.checkedAll').on('click', function (e) {
+        if ($(this).is(':checked', true)) {
+            $(".sub-checkbox").prop('checked', true);
+        } else {
+            $(".sub-checkbox").prop('checked', false);
         }
-    }
-});
+    });
 
-$('.course__detial .item-delete').on('click', function (e) {
-    WRN_PROFILE_DELETE = "آیا مطمئن هستید که می خواهید این سطر را حذف کنید؟";
-    var check = confirm(WRN_PROFILE_DELETE);
-    if (check == true) {
-        $('table tr').filter("[data-row-id='" + $(this).attr('data-id') + "']").remove();
+    function acceptAllLessons(route) {
+
+        Swal.fire({
+            title: "آیا از تایید همه جلسات این دوره اطمینان دارید؟",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'بله مطمئن ام',
+            cancelButtonText: 'خیر درخواست لغو شود.',
+        }).then((result) => {
+
+            if (result.value) {
+                $("<form action='"+ route +"' method='post'>" +
+                "<input type='hidden' name='_token' value='"+ $('meta[name="_token"]').attr('content') +"' /> "+
+                "<input type='hidden' name='_method' value='patch'> " +
+                "</form>").appendTo('body').submit();
+            Swal.fire(
+                'تایید شده!',
+                'جلسه شما تایید شده است',
+                'success'
+            )
+            }else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire({
+                    title: 'لغو درخواست',
+                    text: "درخواست شما لغو شد",
+                    icon: 'error',
+                    confirmButtonText: 'باشه.'
+                })
+            }
+        })
     }
-});
-$(document).on('click touchstart', function (e) {
-    var serach__box = $('.t-header-search');
-    var input = $('.search-input__box');
-    if ($(e.target).is(serach__box) || serach__box.has(e.target).length == 1) {
-        $('.t-header-search-content').show();
-        $('.t-header-searchbox').addClass('open')
+    function acceptMultiple(route) {
+        doMultipleAction(route, "آیا مطمئن هستید که می خواهید این سطرها را تایید کنید؟",'patch')
+    }
+    function rejectMultiple(route) {
+        doMultipleAction(route, "آیا مطمئن هستید که می خواهید این سطرها را رد کنید؟",'patch')
+    }
+
+
+    function deleteMultiple(route) {
+        doMultipleAction(route, "آیا مطمئن هستید که می خواهید این سطرها را حذف کنید؟", "delete")
+    }
+function doMultipleAction(route, message, method) {
+    var allVals = getSelectedItems();
+    if (allVals.length <= 0) {
+          Swal.fire('یک سطر انتخاب کنید.');
     } else {
-        $('.t-header-search-content').hide();
-        $('.t-header-searchbox').removeClass('open')
-
-    }
-})
-$('.create-ads .ads-field-pn').on('click', function (e) {
-    $('.file-upload').hide()
-});
-$('.create-ads .ads-field-banner').on('click', function (e) {
-    $('.file-upload').show()
-});
-$('.discounts #discounts-field-2').on('click', function (e) {
-    $('.discounts .dropdown-select').addClass('is-active')
-});
-$('.discounts #discounts-field-1').on('click', function (e) {
-    $('.discounts .dropdown-select').removeClass('is-active')
-});
-
-function deleteItem(event, route , element = 'tr') {
-        event.preventDefault();
-        const swalWithBootstrapButtons = Swal.mixin({
-
-            customClass:{
-                confirmButton: 'btn btn-success mx-2',
-                cancelButton:  'btn btn-danger mx-2',
-            },
-            buttonsStyling: false,
-        });
-
-        swalWithBootstrapButtons.fire({
-            title: 'آیا از حذف کردن داده مطمن هستید؟',
-               text: "شما میتوانید درخواست خود را لغو نمایید",
-                icon: 'warning',
-                showCancelButton: true,
-               confirmButtonText: 'بله داده حذف شود.',
-               cancelButtonText: 'خیر درخواست لغو شود.',
-               reverseButtons: true
-               }).then((result) => {
-
-                   if(result.value == true){
-
-                    $.post(route, {_method: "delete", _token: $('meta[name="_token"]').attr('content')})
-                    .done(function (response) {
-                        event.target.closest(element).remove()
-                        $.toast({
-                            heading: 'عملیات موفق',
-                            text: response.message,
-                            showHideTransition: 'slide',
-                            icon: 'success'
-                        })
-                    })
-                    .fail(function (response) {
-                        $.toast({
-                            heading: 'عملیات ناموفق',
-                            text: response.message,
-                            showHideTransition: 'slide',
-                            icon: 'error'
-                        })
-                    })
-
-                   }
-                   else if(result.dismiss === Swal.DismissReason.cancel){
-                       swalWithBootstrapButtons.fire({
-                                title: 'لغو درخواست',
-                                text: "درخواست شما لغو شد",
-                               icon: 'error',
-                              confirmButtonText: 'باشه.'
-                       })
-                   }
-               })
+        Swal.fire({
+            title: message,
+            text: "شما میتوانید درخواست خود را لغو نمایید",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'بله داده حذف شود.',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'خیر درخواست لغو شود.',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value == true) {
+                $("<form action='" + route + "' method='post'>" +
+                    "<input type='hidden' name='_token' value='" + $('meta[name="_token"]').attr('content') + "' /> " +
+                    "<input type='hidden' name='_method' value='" + method + "'> " +
+                    "<input type='hidden' name='ids' value='" + allVals + "'>" +
+                    "</form>").appendTo('body').submit()
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire({
+                    title: 'لغو درخواست',
+                    text: "درخواست شما لغو شد",
+                    icon: 'error',
+                    confirmButtonText: 'باشه.'
+                })
+            }
+        })
+   }
 
 }
 
-function updateConfirmationStatus(event, route, message, status, field = 'confirmation_status', parent = 'tr', target= 'td.') {
-    event.preventDefault();
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass:{
-            confirmButton: 'btn btn-success mx-2',
-            cancelButton:  'btn btn-danger mx-2',
-        },
-        buttonsStyling: false,
+
+
+    function getSelectedItems() {
+        var allVals = [];
+        $(".sub-checkbox:checked").each(function () {
+            allVals.push($(this).attr('data-id'));
+        });
+        return allVals;
+    }
+
+
+    $('.course__detial .item-delete').on('click', function (e) {
+        WRN_PROFILE_DELETE = "آیا مطمئن هستید که می خواهید این سطر را حذف کنید؟";
+        var check = confirm(WRN_PROFILE_DELETE);
+        if (check == true) {
+            $('table tr').filter("[data-row-id='" + $(this).attr('data-id') + "']").remove();
+        }
     });
 
-    swalWithBootstrapButtons.fire({
-           title: status,
-           text: message,
-            icon: 'warning',
-            showCancelButton: true,
-           confirmButtonText: 'بله',
-           cancelButtonText: 'خیر درخواست لغو شود.',
-           reverseButtons: true
-           }).then((result) => {
 
-               if(result.value == true){
-                  $.post(route, { _method: "PATCH", _token: $('meta[name="_token"]').attr('content') })
-                 .done(function (response) {
-                $(event.target).closest(parent).find(target + field).text(status);
-                if (status == "تایید شده" ||status == "تکمیل شده") {
-                    $(event.target).closest(parent).find(target + field).html("<span class='text-success'>" + status + "</span>");
-                }else{
-                    $(event.target).closest(parent).find(target + field).html("<span class='text-error'>" + status + "</span>");
-                }
-                $.toast({
-                    heading: 'عملیات موفق',
-                    text: response.message,
-                    showHideTransition: 'slide',
-                    icon: 'success'
+    $(document).on('click touchstart', function (e) {
+        var serach__box = $('.t-header-search');
+        var input = $('.search-input__box');
+        if ($(e.target).is(serach__box) || serach__box.has(e.target).length == 1) {
+            $('.t-header-search-content').show();
+            $('.t-header-searchbox').addClass('open')
+        } else {
+            $('.t-header-search-content').hide();
+            $('.t-header-searchbox').removeClass('open')
+
+        }
+    })
+    $('.create-ads .ads-field-pn').on('click', function (e) {
+        $('.file-upload').hide()
+    });
+    $('.create-ads .ads-field-banner').on('click', function (e) {
+        $('.file-upload').show()
+    });
+    $('.discounts #discounts-field-2').on('click', function (e) {
+        $('.discounts .dropdown-select').addClass('is-active')
+    });
+    $('.discounts #discounts-field-1').on('click', function (e) {
+        $('.discounts .dropdown-select').removeClass('is-active')
+    });
+
+function deleteItem(event, route, element = 'tr') {
+    event.preventDefault();
+
+    Swal.fire({
+        title: 'آیا از حذف کردن داده مطمن هستید؟',
+        text: "شما میتوانید درخواست خود را لغو نمایید",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'بله داده حذف شود.',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'خیر درخواست لغو شود.',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.value == true) {
+
+            $.post(route, { _method: "delete", _token: $('meta[name="_token"]').attr('content') })
+                .done(function (response) {
+                    event.target.closest(element).remove()
+                    $.toast({
+                        heading: 'عملیات موفق',
+                        text: response.message,
+                        showHideTransition: 'slide',
+                        icon: 'success'
+                    })
                 })
-             })
-            .fail(function (response) {
-                $.toast({
-                    heading: 'عملیات ناموفق',
-                    text: response.message,
-                    showHideTransition: 'slide',
-                    icon: 'error'
+                .fail(function (response) {
+                    $.toast({
+                        heading: 'عملیات ناموفق',
+                        text: response.message,
+                        showHideTransition: 'slide',
+                        icon: 'error'
+                    })
                 })
+        }
+        else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                title: 'لغو درخواست',
+                text: "درخواست شما لغو شد",
+                icon: 'error',
+                confirmButtonText: 'باشه.'
             })
-          }
-               else if(result.dismiss === Swal.DismissReason.cancel){
-                swalWithBootstrapButtons.fire({
-                         title: 'لغو درخواست',
-                         text: "درخواست شما لغو شد",
-                        icon: 'error',
-                       confirmButtonText: 'باشه.'
+        }
+    })
+
+}
+
+function updateConfirmationStatus(event, route, message, status, field = 'confirmation_status', parent = 'tr', target = 'td.') {
+    event.preventDefault();
+    Swal.fire({
+        title: status,
+        text: message,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'بله',
+        cancelButtonText: 'خیر درخواست لغو شود.',
+        cancelButtonColor: '#d33',
+        reverseButtons: true
+    }).then((result) => {
+
+        if (result.value == true) {
+            $.post(route, { _method: "PATCH", _token: $('meta[name="_token"]').attr('content') })
+                .done(function (response) {
+                    $(event.target).closest(parent).find(target + field).text(status);
+                    if (status == "تایید شده" || status == "تکمیل شده") {
+                        $(event.target).closest(parent).find(target + field).html("<span class='text-success'>" + status + "</span>");
+                    } else {
+                        $(event.target).closest(parent).find(target + field).html("<span class='text-error'>" + status + "</span>");
+                    }
+                    $.toast({
+                        heading: 'عملیات موفق',
+                        text: response.message,
+                        showHideTransition: 'slide',
+                        icon: 'success'
+                    })
                 })
-         }
-      })
+                .fail(function (response) {
+                    $.toast({
+                        heading: 'عملیات ناموفق',
+                        text: response.message,
+                        showHideTransition: 'slide',
+                        icon: 'error'
+                    })
+                })
+        }
+        else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                title: 'لغو درخواست',
+                text: "درخواست شما لغو شد",
+                icon: 'error',
+                confirmButtonText: 'باشه.'
+            })
+        }
+    })
 }

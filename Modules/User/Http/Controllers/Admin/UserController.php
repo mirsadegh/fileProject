@@ -15,7 +15,7 @@ use Modules\User\Http\Requests\AddRoleRequest;
 use Modules\User\Http\Requests\UpdateUserPhoto;
 use Modules\RolePermission\Repositories\RoleRepo;
 use Modules\User\Http\Requests\UpdateUserRequest;
-use Modules\User\Http\Requests\UpdateProfileInformationRequest;
+
 
 class UserController extends Controller
 {
@@ -103,20 +103,6 @@ class UserController extends Controller
             auth()->user()->save();
 
             return back()->with(['swal-success'=>  "عکس پروفایل با موفقیت ذخیره گردید."]);
-    }
-
-    public function profile()
-    {
-        $this->authorize('editProfile', User::class);
-        return view('user::admin.profile');
-    }
-
-    public function updateProfile(UpdateProfileInformationRequest $request)
-    {
-        $this->authorize('editProfile', User::class);
-        $this->userRepo->updateProfile($request);
-
-        return back()->with(['swal-success'=>'پروفایل با موفقیت برروزرسانی گردید.']);
     }
 
     /**

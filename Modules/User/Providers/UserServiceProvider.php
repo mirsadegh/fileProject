@@ -129,7 +129,7 @@ class UserServiceProvider extends ServiceProvider
         config()->set('sidebar.items.usersInformation', [
             "icon" => "i-user__inforamtion",
             "title" => "اطلاعات کاربری",
-            "url" => url('admin/users/profile'),
+            "url" => url('users/profile'),
 
         ]);
     }

@@ -32,14 +32,4 @@ class videoFileService extends DefaultFileService implements FileServiceContract
         return (static::$media->is_private ? 'private/':'public/') . static::$media->files['video'];
     }
 
-
-    public static function delete(Media $media)
-    {
-        // TODO: Implement delete() method.
-    }
-
-    public static function stream(Media $media)
-    {
-        // TODO: Implement stream() method.
-    }
 }

@@ -15,6 +15,7 @@ use Illuminate\Contracts\Support\Renderable;
 
 use Modules\Media\Services\MediaFileService;
 use Modules\Course\Http\Requests\CourseRequest;
+use Modules\RolePermission\Entities\Permission;
 
 class CourseController extends Controller
 {
@@ -25,8 +26,12 @@ class CourseController extends Controller
     public function index(CourseRepo $courseRepo)
     {
         $this->authorize('index', Course::class);
+        if (auth()->user()->hasAnyPermission([Permission::PERMISSION_MANAGE_COURSES, Permission::PERMISSION_SUPER_ADMIN])) {
+            $courses = $courseRepo->paginate();
+        } else {
+            $courses = $courseRepo->getCoursesByTeacherId(auth()->id());
+        }
 
-        $courses = $courseRepo->paginate();
         return view('course::index', compact('courses'));
     }
 
@@ -65,8 +70,8 @@ class CourseController extends Controller
 
     public function edit($id, CourseRepo $courseRepo, UserRepo $userRepo, CatRepo $categoryRepo)
     {
-        $this->authorize('edit', $course);
         $course = $courseRepo->findById($id);
+        $this->authorize('edit', $course);
         $teachers = $userRepo->getTeachers();
         $categories = $categoryRepo->all();
 
@@ -101,7 +106,7 @@ class CourseController extends Controller
 
         $courseRepo->update($id, $request);
 
-        return redirect()->route('course.index')->with(['swal-success' => 'دوره مورد نظر با موفقیت برروزرسانی گردید.']);
+        return redirect()->route('courses.index')->with(['swal-success' => 'دوره مورد نظر با موفقیت برروزرسانی گردید.']);
     }
 
     public function details($id, CourseRepo $courseRepo, LessonRepo $lessonRepo)

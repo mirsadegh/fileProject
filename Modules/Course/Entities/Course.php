@@ -2,10 +2,12 @@
 
 namespace Modules\Course\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Media\Entities\Media;
 use Modules\User\Entities\User;
+use Modules\Media\Entities\Media;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Category\Entities\Category;
+use Modules\Course\Repositories\CourseRepo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Course extends Model
 {
@@ -47,4 +49,48 @@ class Course extends Model
     {
         return $this->hasMany(Season::class);
     }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    public function getDuration()
+    {
+        return (new CourseRepo())->getDuration($this->id);
+    }
+
+    public function formattedDuration()
+    {
+        $duration = $this->getDuration();
+        $h = round($duration / 60) < 10 ? '0' . round($duration / 60) : round($duration / 60);
+        $m = ($duration % 60) < 10 ? '0' . ($duration % 60) : ($duration % 60);
+        return $h . ':' . $m . ":00";
+    }
+
+    public function getFormattedPrice()
+    {
+        return number_format($this->price);
+    }
+
+    public function path()
+    {
+        return route('singleCourse', $this->id . '-' . $this->slug);
+    }
+
+    public function lessonsCount()
+    {
+        return (new CourseRepo())->getLessonsCount($this->id);
+    }
+
+    public function shortUrl()
+    {
+        return route('singleCourse', $this->id);
+    }
+
+
 }

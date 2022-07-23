@@ -22,6 +22,7 @@
             @endcan
             <div class="table__box">
                 <table class="table">
+                <table class="table">
                     <thead role="rowgroup">
                     <tr role="row" class="title-row">
                         <th style="padding: 13px 30px;">
@@ -64,14 +65,14 @@
                           </td>
 
                         <td class="status">
-                            @if($lesson->status == \Modules\Course\Models\Lesson::STATUS_OPENED)
-                                {{ $lesson->free ? 'همه' : 'شرکت کنندگان' }}
+                            @if($lesson->status == \Modules\Course\Entities\Lesson::STATUS_OPENED)
+                                {{ $lesson->is_free ? 'همه' : 'شرکت کنندگان' }}
                             @else
                              <span>قفل شده</span>
                             @endif
                         </td>
                         <td>
-                            @can(\Modules\RolePermissions\Models\Permission::PERMISSION_MANAGE_COURSES)
+                            @can(\Modules\RolePermission\Entities\Permission::PERMISSION_MANAGE_COURSES)
 
                                 <a href="" class="item-delete mlg-15"
                                    onclick="deleteItem(event,'{{ route('lessons.destroy',[$course->id,$lesson->id]) }}')" title="حذف"></a>

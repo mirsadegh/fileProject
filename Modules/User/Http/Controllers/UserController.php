@@ -2,78 +2,28 @@
 
 namespace Modules\User\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+
+use App\Http\Controllers\Controller;
+use Modules\User\Repositories\UserRepo;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\User\Http\Requests\UpdateProfileInformationRequest;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
-    public function index()
+
+    public function profile()
     {
-        return view('user::index');
+        $this->authorize('editProfile', User::class);
+        return view('user::Front.profile');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
+    public function updateProfile(UpdateProfileInformationRequest $request,UserRepo $userRepo)
     {
-        return view('user::create');
+        $this->authorize('editProfile', User::class);
+        $userRepo->updateProfile($request);
+
+        return back()->with(['swal-success'=>'پروفایل با موفقیت برروزرسانی گردید.']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('user::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('user::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

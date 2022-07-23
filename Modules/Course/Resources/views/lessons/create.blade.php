@@ -1,4 +1,4 @@
-@extends('Dashboard::master')
+@extends('dashboard::master')
 
 @section('breadcrumb')
     <li><a href="{{ route('courses.index') }}" title="دوره ها">دوره ها</a></li>
@@ -18,9 +18,6 @@
                 <x-input name="time" placeholder="مدت زمان جلسه *" type="number" class="text-left" required />
                 <x-input name="number" placeholder="شماره جلسه" type="number" class="text-left"/>
 
-
-
-
                 @if(count($seasons))
                 <x-select name="season_id">
                     <option value=""> انتخاب سرفصل درس *</option>
@@ -31,7 +28,6 @@
                     @endforeach
                 </x-select>
                 @endif
-
 
                 <div class="w-50">
                     <p class="box__title">ایا این درس رایگان است ؟ </p>
@@ -46,7 +42,7 @@
                 </div>
 
                 <x-file placeholder="آپلود درس *" name="lesson_file" required />
-                <x-textarea placeholder="توضیحات درس" name="body"/>
+                <x-text-area placeholder="توضیحات درس" name="body"/>
                 <br>
                 <button class="btn btn-webamooz_net">ایجاد درس</button>
             </form>

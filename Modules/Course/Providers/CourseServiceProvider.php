@@ -3,11 +3,13 @@
 namespace Modules\Course\Providers;
 
 use Modules\Course\Entities\Course;
+use Modules\Course\Entities\Lesson;
 use Modules\Course\Entities\Season;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Course\Policies\CoursePolicy;
+use Modules\Course\Policies\LessonPolicy;
 use Modules\RolePermission\Entities\Permission;
 
 class CourseServiceProvider extends ServiceProvider
@@ -48,7 +50,7 @@ class CourseServiceProvider extends ServiceProvider
         $this->loadJsonTranslationsFrom(__DIR__."/../Resources/lang/");
         Gate::policy(Course::class,CoursePolicy::class);
         Gate::policy(Season::class, SeasonPolicy::class);
-
+        Gate::policy(Lesson::class,LessonPolicy::class);
     }
 
     /**
@@ -126,7 +128,11 @@ class CourseServiceProvider extends ServiceProvider
              "icon"  => "i-courses",
              "title" => "دوره ها",
              "url"   => url('courses'),
-             "permission" => Permission::PERMISSION_MANAGE_COURSES
+             "permission" => [
+                Permission::PERMISSION_MANAGE_COURSES,
+                Permission::PERMISSION_MANAGE_OWN_COURSES
+
+             ]
         ]);
     }
 }

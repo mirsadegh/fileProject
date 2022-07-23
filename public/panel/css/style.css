@@ -32,7 +32,7 @@ body {
 
 a, a:active, a:focus, a:visited {
     text-decoration: none;
-    color: #444;
+    /* color: #444; */
 }
 
 ul li {
@@ -2122,45 +2122,56 @@ span.tagRemove:hover {
       }
 
 
-      .btn-success {
-        --bs-btn-color: #fff;
-        --bs-btn-bg: #198754;
-        --bs-btn-border-color: #198754;
-        --bs-btn-hover-color: #fff;
-        --bs-btn-hover-bg: #157347;
-        --bs-btn-hover-border-color: #146c43;
-        --bs-btn-focus-shadow-rgb: 60, 153, 110;
-        --bs-btn-active-color: #fff;
-        --bs-btn-active-bg: #146c43;
-        --bs-btn-active-border-color: #13653f;
-        --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-        --bs-btn-disabled-color: #fff;
-        --bs-btn-disabled-bg: #198754;
-        --bs-btn-disabled-border-color: #198754;
-      }
+      .btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
 
-
-      .btn-danger {
-        --bs-btn-color: #fff;
-        --bs-btn-bg: #dc3545;
-        --bs-btn-border-color: #dc3545;
-        --bs-btn-hover-color: #fff;
-        --bs-btn-hover-bg: #bb2d3b;
-        --bs-btn-hover-border-color: #b02a37;
-        --bs-btn-focus-shadow-rgb: 225, 83, 97;
-        --bs-btn-active-color: #fff;
-        --bs-btn-active-bg: #b02a37;
-        --bs-btn-active-border-color: #a52834;
-        --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-        --bs-btn-disabled-color: #fff;
-        --bs-btn-disabled-bg: #dc3545;
-        --bs-btn-disabled-border-color: #dc3545;
-      }
+    .btn-secondary {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .btn-success {
+        color: #fff;
+        background-color: #6ceb8a;
+        border-color: #6ceb8a;
+    }
 
       .btn-info {
         color: #fff;
         background-color: #5bc0de;
         border-color: #46b8da;
+    }
+
+    .btn-danger {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .btn-warning {
+        color: #212529;
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .btn-light {
+        color: #212529;
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+    }
+    .btn-dark {
+        color: #fff;
+        background-color: #343a40;
+        border-color: #343a40;
+    }
+
+    .btn-link {
+        font-weight: 400;
+        color: #007bff;
+        background-color: transparent;
     }
 
 

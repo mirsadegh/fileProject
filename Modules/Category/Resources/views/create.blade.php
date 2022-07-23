@@ -1,5 +1,5 @@
 <p class="box__title">ایجاد دسته بندی جدید</p>
-<form action="{{ route('admin.categories.store') }}" method="post" class="padding-30">
+<form action="{{ route('categories.store') }}" method="post" class="padding-30">
     @csrf
     <input type="text" name='title' placeholder="نام دسته بندی" class="text @error('title') is-invalid @enderror" value="{{ old('title') }}">
     @error('title')

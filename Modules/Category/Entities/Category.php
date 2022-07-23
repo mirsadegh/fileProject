@@ -31,4 +31,9 @@ class Category extends Model
         return $this->hasMany(Category::class,'parent_id');
     }
 
+    public function path()
+    {
+        return route('categories.show', $this->id);
+    }
+
 }

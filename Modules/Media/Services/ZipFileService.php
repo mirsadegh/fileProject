@@ -23,21 +23,11 @@ class ZipFileService extends DefaultFileService implements FileServiceContract
 
     public static function thumb(Media $media)
     {
-        return url('/img/zip-thumb.jpg');
+        return url('/img/zip-thumb.png');
     }
 
     public static function getFilename()
     {
         return (static::$media->is_private ? 'private/':'public/') . static::$media->files['zip'];
-    }
-
-    public static function delete(Media $media)
-    {
-        // TODO: Implement delete() method.
-    }
-
-    public static function stream(Media $media)
-    {
-        // TODO: Implement stream() method.
     }
 }

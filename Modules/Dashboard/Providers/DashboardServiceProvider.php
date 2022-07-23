@@ -118,8 +118,8 @@ class DashboardServiceProvider extends ServiceProvider
         config()->set('sidebar.items.dashboard',[
             "icon" => "i-dashboard",
             "title" => "پیشخوان",
-            "url" => url('admin/dashboard'),
+            "url" => url('/dashboard'),
         ]);
-     
+
     }
 }

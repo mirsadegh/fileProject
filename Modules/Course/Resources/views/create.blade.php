@@ -23,7 +23,7 @@
                     <option value="">انتخاب مدرس دوره</option>
                     @foreach($teachers as $teacher)
                     <option value="{{ $teacher->id }}" @if($teacher->id == old('teacher_id')) selected @endif>
-                        {{ $teacher->name }}
+                        {{ $teacher->name ?? $teacher->email }}
                     </option>
                     @endforeach
                 </x-select>

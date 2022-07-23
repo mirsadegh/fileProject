@@ -1,6 +1,6 @@
 @extends('dashboard::master')
 @section('breadcrumb')
-    <li><a href="{{ route('admin.users.index') }}" title="کاربران">کاربران</a></li>
+    <li><a href="{{ route('users.profile') }}" title="کاربران">کاربران</a></li>
     <li><a href="#" title="ویرایش کاربر">ویرایش پروفایل</a></li>
 @endsection
 @section('content')
@@ -8,7 +8,7 @@
         <div class="col-12 bg-white">
             <p class="box__title">بروزرسانی پروفایل</p>
             <x-user-photo />
-            <form action="{{ route('admin.users.profile')}}" class="padding-30" method="post">
+            <form action="{{ route('users.profile')}}" class="padding-30" method="post">
                 @csrf
                 <x-input name="name" placeholder="نام کاربری" type="text" value="{{ auth()->user()->name }}" required/>
                 <x-input type="text" name="email" placeholder="ایمیل" value="{{ auth()->user()->email }}" class="text-left" required />

@@ -12,5 +12,6 @@
 */
 
 Route::prefix('media')->group(function() {
-    Route::get('/', 'MediaController@index');
+    Route::get('/media/{media}/download', 'MediaController@download')->name('media.download');
+
 });
