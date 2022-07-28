@@ -108,6 +108,11 @@ class User extends Authenticatable
         return $this->hasMany(Course::class,'teacher_id');
     }
 
+    public function purchases()
+    {
+        return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id');
+    }
+
     public function seasons()
     {
        return $this->hasMany(Season::class);
@@ -117,10 +122,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Lesson::class);
     }
-    
+
     public function profilePath()
     {
         // return null;
         return $this->username ? route('admin.viewProfile', $this->username) : route('admin.viewProfile', 'username');
     }
+
+    public function studentsCount()
+    {
+        return \DB::table("courses")
+            ->select("course_id")->where("teacher_id", $this->id)
+            ->join("course_user", "courses.id", "=", "course_user.course_id")->count();
+    }
+
+
 }

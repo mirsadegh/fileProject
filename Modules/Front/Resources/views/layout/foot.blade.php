@@ -3,3 +3,5 @@
 <script src="/js/js.js"></script>
 <script src="/js/jquery.toast.min.js"></script>
 <script src="/js/countDownTimer.js"></script>
+<script src="/panel/sweetalert/sweetalert2.min.js"></script>
+@yield('js')

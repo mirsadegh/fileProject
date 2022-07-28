@@ -9,5 +9,6 @@
     "Test12": true,
     "Test1": true,
     "Common": true,
-    "Front": true
+    "Front": true,
+    "Payment": true
 }

@@ -6,14 +6,16 @@ use Illuminate\Http\Request;
 use Modules\Course\Entities\Course;
 
 use App\Http\Controllers\Controller;
+use Modules\Payment\Gateways\Gateway;
 use Modules\User\Repositories\UserRepo;
 use Modules\Category\Repositories\CatRepo;
 use Modules\Common\Responses\AjaxResponses;
 use Modules\Course\Repositories\CourseRepo;
 use Modules\Course\Repositories\LessonRepo;
-use Illuminate\Contracts\Support\Renderable;
 
+use Illuminate\Contracts\Support\Renderable;
 use Modules\Media\Services\MediaFileService;
+use Modules\Payment\Services\PaymentService;
 use Modules\Course\Http\Requests\CourseRequest;
 use Modules\RolePermission\Entities\Permission;
 
@@ -165,5 +167,58 @@ class CourseController extends Controller
             return AjaxResponses::successResponse();
         }
         return AjaxResponses::FailedResponse();
+    }
+    public function buy($courseId, CourseRepo $courseRepo)
+    {
+        $course = $courseRepo->findByid($courseId);
+
+        if (!$this->courseCanBePurchased($course)) {
+            return false;
+        }
+
+        if (!$this->authUserCanPurchaseCourse($course)) {
+            return false;
+        }
+        $amount = $course->price;
+
+        // [$amount, $discounts] = $course->getFinalPrice(request()->code, true);
+        // if ($amount <= 0){
+        //     $courseRepo->addStudentToCourse($course, auth()->id());
+        //     return redirect($course->path())->with('swal-success','شما با موفقیت در دوره ثبت نام کردید.');
+        // }
+        $payment = PaymentService::generate($amount, $course, auth()->user(), $course->teacher_id, $discounts=0);
+
+        resolve(Gateway::class)->redirect($payment->invoice_id);
+    }
+
+    private function courseCanBePurchased(Course $course)
+    {
+        if ($course->type == Course::TYPE_FREE) {
+            return back()->with('swal-error',"دوره های رایگان قابل خریداری نیستند!");
+        }
+
+        if ($course->status == Course::STATUS_LOCKED) {
+            return back()->with('swal-error',"این دوره قفل شده است و فعلا قابل خریداری نیست!");
+        }
+
+        if ($course->confirmation_status != Course::CONFIRMATION_STATUS_ACCEPTED) {
+            return back()->with('swal-error', "دوره ی انتخابی شما هنوز تایید نشده است!");
+        }
+
+        return true;
+    }
+
+    private function authUserCanPurchaseCourse(Course $course)
+    {
+        if (auth()->id() == $course->teacher_id) {
+            return back()->with('swal-error', "شما مدرس این دوره هستید." );
+        }
+
+        if (auth()->user()->can("download", $course)) {
+            return back()->with('swal-error', "شما به دوره دسترسی دارید." );
+        }
+
+
+        return true;
     }
 }

@@ -97,6 +97,24 @@ class CourseRepo
         return $this->getLessonsQuery($id)->count();
     }
 
+    public function hasStudent(Course $course, $student_id)
+    {
+        return $course->students->contains($student_id);
+    }
+
+    public function addStudentToCourse(Course $course, $studentId)
+    {
+        if (!$this->getCourseStudentById($course, $studentId)) {
+            $course->students()->attach($studentId);
+        }
+    }
+
+    public function getCourseStudentById(Course $course, $studentId)
+    {
+        return $course->students()->where("id", $studentId)->first();
+    }
+
+
 
 }
 

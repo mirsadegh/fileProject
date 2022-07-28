@@ -4,10 +4,12 @@ namespace Modules\Front\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Modules\User\Entities\User;
 use Illuminate\Routing\Controller;
 use Modules\Course\Repositories\CourseRepo;
 use Modules\Course\Repositories\LessonRepo;
 use Illuminate\Contracts\Support\Renderable;
+use Modules\RolePermission\Entities\Permission;
 
 class FrontController extends Controller
 {
@@ -39,7 +41,12 @@ class FrontController extends Controller
         return Str::before(Str::after($slug, $key .'-'), '-');
     }
 
+    public function singleTutor($id)
+    {
+        $tutor = User::permission(Permission::PERMISSION_TEACH)->where('id', $id)->first();
 
+        return view('front::tutor', compact('tutor'));
+    }
 
 
 

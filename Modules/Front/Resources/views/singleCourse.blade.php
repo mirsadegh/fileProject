@@ -10,17 +10,17 @@
                     <div class="breadcrumb">
                         <ul>
                             <li><a href="/" title="خانه">خانه</a></li>
-                            @if($course->category->parentCategory)
+                            @if ($course->category->parentCategory)
                                 <li>
                                     <a href="{{ $course->category->parentCategory->path() }}"
-                                       title="{{ $course->category->parentCategory->title }}">
+                                        title="{{ $course->category->parentCategory->title }}">
                                         {{ $course->category->parentCategory->title }}
                                     </a>
                                 </li>
                             @endif
                             <li>
                                 <a href="{{ $course->category->path() }}"
-                                   title="{{ $course->category->title }}">{{ $course->category->title }}
+                                    title="{{ $course->category->title }}">{{ $course->category->title }}
                                 </a>
                             </li>
                         </ul>
@@ -37,20 +37,22 @@
                             تخفیف
                         </div>
                         @auth
-                            @if(auth()->id() == $course->teacher_id)
+                            @if (auth()->id() == $course->teacher_id)
                                 <p class="mycourse ">شما مدرس این دوره هستید</p>
-                            @elseif(auth()->user()->can("download", $course))
+                            @elseif (auth()->user()->hasPermissionTo('super_admin'))
+                            <p class="mycourse">مدیر سایت</p>
+                            @elseif(auth()->user()->can('download', $course))
                                 <p class="mycourse">شما این دوره رو خریداری کرده اید</p>
                             @else
                                 <div class="sell_course">
                                     <strong>قیمت :</strong>
-                                    @if($course->getDiscount())
+                                    @if ($course->getDiscount())
                                         <del class="discount-Price">{{ $course->getFormattedPrice() }}</del>
                                     @endif
                                     <p class="price">
-                        <span class="woocommerce-Price-amount amount">{{ $course->getFormattedFinalPrice() }}
-                            <span class="woocommerce-Price-currencySymbol">تومان</span>
-                        </span>
+                                        <span class="woocommerce-Price-amount amount">{{ $course->getFormattedFinalPrice() }}
+                                           <span class="woocommerce-Price-currencySymbol">تومان</span>
+                                         </span>
                                     </p>
                                 </div>
                                 <button class="btn buy btn-buy">خرید دوره</button>
@@ -58,17 +60,17 @@
                         @else
                             <div class="sell_course ">
                                 <strong>قیمت :</strong>
-                                @if($course->getDiscount())
+                                @if ($course->getDiscount())
                                     <del class="discount-Price">{{ $course->getFormattedPrice() }}</del>
                                 @endif
                                 <p class="price">
-                        <span class="woocommerce-Price-amount amount">{{ $course->getFormattedPrice() }}
-                            <span class="woocommerce-Price-currencySymbol">تومان</span>
-                        </span>
+                                    <span class="woocommerce-Price-amount amount">{{ $course->getFormattedPrice() }}
+                                        <span class="woocommerce-Price-currencySymbol">تومان</span>
+                                    </span>
                                 </p>
                             </div>
                             <p>جهت خرید دوره ابتدا در سایت لاگین کنید.</p>
-                            <a href="{{ route('login')}}" class="btn text-white w-100">ورود به سایت</a>
+                            <a href="{{ route('auth.login-register-form') }}" class="btn text-white w-100">ورود به سایت</a>
                         @endauth
                         <div class="rating-star">
                             <div class="rating">
@@ -97,11 +99,11 @@
                     </div>
                     <div class="product-info-box">
                         <div class="product-meta-info-list">
-                            {{-- <div class="total_sales">
+                            <div class="total_sales">
                                 تعداد دانشجو : <span>{{ count($course->students) }}</span>
-                            </div> --}}
+                            </div>
                             <div class="meta-info-unit one">
-                                <span class="title">تعداد جلسات منتشر شده :  </span>
+                                <span class="title">تعداد جلسات منتشر شده : </span>
                                 <span class="vlaue">{{ $course->lessonsCount() }}</span>
                             </div>
                             <div class="meta-info-unit two">
@@ -128,23 +130,23 @@
                     </div>
                     <div class="course-teacher-details">
                         <div class="top-part">
-                            <a href="#">
+                            <a href="{{ route('singleTutor', $course->teacher->id) }}">
                                 <img alt="{{ $course->teacher->name }}" class="img-fluid lazyloaded"
-                                     src="{{ $course->teacher->thumb }}" loading="lazy">
+                                    src="{{ $course->teacher->thumb }}" loading="lazy">
                                 <noscript>
                                     <img class="img-fluid" src="{{ $course->teacher->thumb }}"
-                                         alt="{{ $course->teacher->name }}">
+                                        alt="{{ $course->teacher->name }}">
                                 </noscript>
                             </a>
                             <div class="name">
-                                <a href="#" class="btn-link">
+                                <a href="{{ route('singleTutor', $course->teacher->id) }}" class="btn-link">
                                     <h6>{{ $course->teacher->name }}</h6>
                                 </a>
                                 <span class="job-title">{{ $course->teacher->headline }}</span>
                             </div>
                         </div>
                         <div class="job-content">
-                            {{--        <p>{{ $course->teacher->bio }}</p>--}}
+                            {{-- <p>{{ $course->teacher->bio }}</p> --}}
                         </div>
                     </div>
                     <div class="short-link">
@@ -152,7 +154,7 @@
                             <span>لینک کوتاه</span>
                             <input class="short--link" value="{{ $course->shortUrl() }}">
                             <a href="{{ $course->shortUrl() }}" class="short-link-a"
-                               data-link="{{ $course->shortUrl() }}"></a>
+                                data-link="{{ $course->shortUrl() }}"></a>
                         </div>
                     </div>
                     @include('front::layout.sidebar-banners')
@@ -160,8 +162,8 @@
                 </div>
             </div>
             <div class="content-left">
-                @if($lesson)
-                    @if($lesson->media->type == "video")
+                @if ($lesson)
+                    @if ($lesson->media->type == 'video')
                         <div class="preview">
                             <video width="100%" controls>
                                 <source src="{{ $lesson->downloadLink() }}" type="video/mp4">
@@ -190,7 +192,7 @@
                 @include('front::layout.episodes-list')
             </div>
         </div>
-        {{-- <div id="Modal-buy" class="modal">
+        <div id="Modal-buy" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <p>کد تخفیف را وارد کنید</p>
@@ -219,14 +221,14 @@
                             </tr>
                             <tr>
                                 <th> مبلغ تخفیف</th>
-                                <td class="text-red"><span
-                                        id="discountAmount" data-value="{{ $course->getDiscountAmount()  }}"> {{ $course->getDiscountAmount() }}</span> تومان
+                                <td class="text-red">
+                                    <span id="discountAmount" data-value="{{ $course->getDiscountAmount()  }}"> {{ $course->getDiscountAmount() }}</span> تومان
                                 </td>
                             </tr>
                             <tr>
                                 <th> قابل پرداخت</th>
-                                <td class="text-blue"><span
-                                        id="payableAmount" data-value="{{ $course->getFinalPrice()  }}">{{ $course->getFormattedFinalPrice() }}</span> تومان
+                                <td class="text-blue">
+                                    <span id="payableAmount" data-value="{{ $course->getFinalPrice()  }}">{{ $course->getFormattedFinalPrice() }}</span> تومان
                                 </td>
                             </tr>
                             </tbody>
@@ -236,7 +238,7 @@
                 </div>
             </div>
         </div>
-        @include("front::comments.index", ["commentable" => $course]) --}}
+        {{-- @include("front::comments.index", ["commentable" => $course]) --}}
     </main>
 @endsection
 
@@ -264,6 +266,10 @@
                 })
         }
     </script> --}}
+@endsection
+
+@section('js')
+    <script src="/js/modal.js"></script>
 @endsection
 
 @section('css')
