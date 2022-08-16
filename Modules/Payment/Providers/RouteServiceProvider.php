@@ -36,6 +36,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
+
+        $this->mapSettlementRoutes();
     }
 
     /**
@@ -50,6 +52,12 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->moduleNamespace)
             ->group(module_path('Payment', '/Routes/web.php'));
+    }
+    protected function mapSettlementRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Payment', '/Routes/settlement_routes.php'));
     }
 
     /**

@@ -26,4 +26,11 @@ class UserController extends Controller
         return back()->with(['swal-success'=>'پروفایل با موفقیت برروزرسانی گردید.']);
     }
 
+    public function info($user, UserRepo $repo)
+    {
+        $this->authorize('index', User::class);
+        $user = $repo->FindByIdFullInfo($user);
+        return view("user::admin.info", compact("user"));
+    }
+
 }

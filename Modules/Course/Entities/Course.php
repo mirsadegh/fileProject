@@ -71,6 +71,12 @@ class Course extends Model
         return $this->morphMany(Payment::class, "paymentable");
     }
 
+    public function payment()
+    {
+        return $this->payments()->latest()->first();
+    }
+
+
     public function getDuration()
     {
         return (new CourseRepo())->getDuration($this->id);
@@ -170,6 +176,16 @@ class Course extends Model
     public function hasStudent($student_id)
     {
         return resolve(CourseRepo::class)->hasStudent($this, $student_id);
+    }
+
+    public function downloadLinks(): array
+    {
+        $links = [];
+        foreach (resolve(CourseRepo::class)->getLessons($this->id) as $lesson) {
+            $links[] = $lesson->downloadLink();
+        }
+
+        return $links;
     }
 
 

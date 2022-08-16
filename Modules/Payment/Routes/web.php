@@ -12,6 +12,9 @@
 */
 
 
-    Route::get('/payment', 'PaymentController@index');
+    Route::get('/payments', 'PaymentController@index')->name('payments.index');
     Route::any("payments/callback", "PaymentController@callback")->name("payments.callback");
-
+    Route::get('purchases', [
+        "uses" => "PaymentController@purchases",
+        "as" => ("purchases.index")
+    ]);

@@ -1,6 +1,6 @@
-@extends('Dashboard::master')
+@extends('dashboard::master')
 @section('breadcrumb')
-    <li><a href="{{ route('users.index') }}" title="کاربران">کاربران</a></li>
+    <li><a href="{{ route('admin.users.index') }}" title="کاربران">کاربران</a></li>
 @endsection
 @section('content')
     <div class="row no-gutters  ">
@@ -126,8 +126,8 @@
     </div>
 @endsection
 
-@section('js')
+{{-- @section('js')
     <script>
         @include('Common::layouts.feedbacks')
     </script>
-@endsection
+@endsection --}}

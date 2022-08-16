@@ -87,6 +87,12 @@ class CourseRepo
         return $this->getLessonsQuery($id)->sum('time');
     }
 
+    public function getLessons($id)
+    {
+        return $this->getLessonsQuery($id)->get();
+    }
+
+
     private function getLessonsQuery($id)
     {
         return Lesson::where('course_id', $id)

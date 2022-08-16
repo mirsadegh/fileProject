@@ -28,6 +28,7 @@ use Modules\User\Http\Controllers\Frontend\Auth\LoginRegisterController;
 
     Route::get('users/profile',"UserController@profile")->name('users.profile');
     Route::post('users/profile',"UserController@updateProfile");
+    Route::get('users/{user}/info', ["uses" => "UserController@info", "as" => 'users.info']);
     Route::any('/logout',[LoginRegisterController::class,'logout'])->name('logout');
 
 

@@ -5,8 +5,10 @@ namespace Modules\User\Entities;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Media\Entities\Media;
 use Modules\Course\Entities\Course;
+use Modules\Payment\Entities\Payment;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Modules\Payment\Entities\Settlement;
 use Modules\RolePermission\Entities\Role;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -113,6 +115,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id');
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, "buyer_id");
+    }
+
     public function seasons()
     {
        return $this->hasMany(Season::class);
@@ -122,6 +129,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Lesson::class);
     }
+
+    public function settlements()
+    {
+        return $this->hasMany(Settlement::class);
+    }
+
 
     public function profilePath()
     {

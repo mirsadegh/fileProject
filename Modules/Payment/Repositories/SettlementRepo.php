@@ -3,6 +3,8 @@
 
 namespace Modules\Payment\Repositories;
 
+use Modules\Payment\Entities\Settlement;
+
 
 
 

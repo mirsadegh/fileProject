@@ -5,6 +5,7 @@ namespace Modules\Payment\Services;
 
 
 
+use Modules\Payment\Entities\Settlement;
 use Modules\Payment\Repositories\SettlementRepo;
 
 class SettlementService
@@ -15,7 +16,7 @@ class SettlementService
         $repo->store($data);
         auth()->user()->balance -= $data["amount"];
         auth()->user()->save();
-        newFeedback();
+        // newFeedback();
     }
 
     public static function update(int $settlement,array $data)
@@ -32,14 +33,14 @@ class SettlementService
         ){
             if (
                 $settlement->user->balance < $settlement->amount){
-                newFeedback("ناموفق", "موجودی حساب کاربر کافی نمیباشد!", 'error');
+                // newFeedback("ناموفق", "موجودی حساب کاربر کافی نمیباشد!", 'error');
                 return;
             }
             $settlement->user->balance -= $settlement->amount;
             $settlement->user->save();
         }
         $repo->update($settlement->id, $data);
-        newFeedback();
+        // newFeedback();
     }
 
 

@@ -2,79 +2,52 @@
 
 namespace Modules\Dashboard\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+use Modules\Payment\Repositories\PaymentRepo;
+
 class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
-    public function index()
+    public function index(PaymentRepo $paymentRepo)
     {
+        $totalSales = $paymentRepo->getUserTotalSuccessAmount(auth()->id());
+        $totalBenefit = $paymentRepo->getUserTotalBenefit(auth()->id());
+        $totalSiteShare = $paymentRepo->getUserTotalSiteShare(auth()->id());
+        $todayBenefit = $paymentRepo->getUserTotalBenefitByDay(auth()->id(), now());
+        $last30DaysBenefit = $paymentRepo->getUserTotalBenefitByPeriod(auth()->id(), now(), now()->addDays(-30));
+        $todaySuccessPaymentsTotal = $paymentRepo->getUserTotalSellByDay(auth()->id(), now());
+        $todaySuccessPaymentsCount = $paymentRepo->getUserSellCountByDay(auth()->id(), now());
 
-        return view('dashboard::index');
+        $payments = $paymentRepo->paymentsBySellerId(auth()->id())->paginate();
+
+        $last30DaysTotal = $paymentRepo->getLastNDaysTotal(-30);
+        $last30DaysSellerShare = $paymentRepo->getLastNDaysSellerShare(-30);
+        $totalSell = $paymentRepo->getLastNDaysTotal();
+
+        $dates = collect();
+        foreach (range(-30, 0) as $i) {
+            $dates->put(now()->addDays($i)->format("Y-m-d"), 0);
+        }
+        $summery =  $paymentRepo->getDailySummery($dates, auth()->id());
+
+        return view('dashboard::index', compact(
+                "totalSales",
+                "totalBenefit",
+                "totalSiteShare",
+                "todayBenefit",
+                "last30DaysBenefit",
+                "todaySuccessPaymentsTotal",
+                "todaySuccessPaymentsCount",
+                "last30DaysTotal",
+                "last30DaysSellerShare",
+                "totalSell",
+                "payments",
+                "dates",
+                "summery"
+            )
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view('dashboard::create');
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('dashboard::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('dashboard::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

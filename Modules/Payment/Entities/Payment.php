@@ -2,6 +2,7 @@
 
 namespace Modules\Payment\Entities;
 
+use Modules\User\Entities\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

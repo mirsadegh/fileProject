@@ -2,13 +2,18 @@
 
 namespace Modules\Payment\Events;
 
-use Modules\Payment\Entities\Payment;
 use Illuminate\Queue\SerializesModels;
+use Modules\Payment\Entities\Payment;
 
 class PaymentWasSuccessful
 {
     use SerializesModels;
 
+    /**
+     * Create a new event instance.
+     *
+     * @return void
+     */
     public $payment;
     public function __construct(Payment $payment)
     {

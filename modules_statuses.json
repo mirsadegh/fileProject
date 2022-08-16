@@ -10,5 +10,6 @@
     "Test1": true,
     "Common": true,
     "Front": true,
-    "Payment": true
+    "Payment": true,
+    "Discount": true
 }
