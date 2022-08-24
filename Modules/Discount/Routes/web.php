@@ -11,6 +11,10 @@
 |
 */
 
-Route::prefix('discount')->group(function() {
-    Route::get('/', 'DiscountController@index');
-});
+
+Route::get('/discounts','DiscountController@index')->name('discounts.index');
+Route::post("/discounts", "DiscountController@store")->name("discounts.store");
+Route::delete("/discounts/{discount}", "DiscountController@destroy")->name("discounts.destroy");
+Route::get("/discounts/{discount}/edit", "DiscountController@edit")->name("discounts.edit");
+Route::patch("/discounts/{discount}", "DiscountController@update")->name("discounts.update");
+Route::get("/discounts/{code}/{course}/check", "DiscountController@check")->name("discounts.check")->middleware("throttle:6,1");

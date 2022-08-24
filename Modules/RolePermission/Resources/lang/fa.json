@@ -11,5 +11,10 @@
     "wrighter": "نویسنده",
     "active": "فعال",
     "inactive": "غیرفعال",
-    "ban": "بن شده"
+    "ban": "بن شده",
+    "manage_payments": "مدیریت تراکنش ها",
+    "manage_settlements": "مدیریت درخواست های تسویه",
+    "manage_discounts": "مدیریت تخفیف ها",
+    "manage_tickets": "مدیریت تیکت ها",
+    "manage_comments": "مدیریت کامنت ها"
 }

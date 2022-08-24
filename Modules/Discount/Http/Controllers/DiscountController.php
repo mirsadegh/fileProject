@@ -2,9 +2,17 @@
 
 namespace Modules\Discount\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Modules\Course\Entities\Course;
+use App\Http\Controllers\Controller;
+use Modules\Discount\Entities\Discount;
+use Modules\Common\Responses\AjaxResponses;
+use Modules\Course\Repositories\CourseRepo;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Discount\Services\DiscountService;
+use Modules\Discount\Repositories\DiscountRepo;
+use Modules\Discount\Http\Requests\DiscountRequest;
+
 
 class DiscountController extends Controller
 {
@@ -12,68 +20,69 @@ class DiscountController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(CourseRepo $courseRepo, DiscountRepo $repo)
     {
-        return view('discount::index');
+        $this->authorize("manage", Discount::class);
+        $discounts = $repo->paginateAll();
+        $courses = $courseRepo->getAll(Course::CONFIRMATION_STATUS_ACCEPTED);
+        return view("discount::index", compact("courses", "discounts"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
+    public function store(DiscountRequest $request, DiscountRepo $repo)
     {
-        return view('discount::create');
+        $this->authorize("manage", Discount::class);
+        $repo->store($request->all());
+        newFeedback();
+        return back();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
+    public function edit(Discount $discount, CourseRepo $courseRepo)
     {
-        //
+        $this->authorize("manage", Discount::class);
+        $courses = $courseRepo->getAll(Course::CONFIRMATION_STATUS_ACCEPTED);
+        return view("discount::edit", compact("discount", "courses"));
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
+    public function update(Discount $discount, DiscountRequest $request, DiscountRepo $repo)
     {
-        return view('discount::show');
+        $this->authorize("manage", Discount::class);
+        $repo->update($discount->id, $request->all());
+        newFeedback();
+        return redirect()->route("discounts.index");
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
+    public function destroy(Discount $discount)
     {
-        return view('discount::edit');
+        $this->authorize("manage", Discount::class);
+        $discount->delete();
+        return AjaxResponses::SuccessResponse();
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
+    public function check($code, Course $course, DiscountRepo $repo)
     {
-        //
+
+        $discount = $repo->getValidDiscountByCode($code, $course->id);
+        if ($discount){
+            $discountAmount = DiscountService::calculateDiscountAmount($course->getFinalPrice(), $discount->percent);
+            $discountPercent = $discount->percent;
+            $response = [
+                "status" => "valid",
+                "payableAmount" => $course->getFinalPrice() - $discountAmount,
+                "discountAmount" => $discountAmount,
+                "discountPercent" => $discountPercent
+            ];
+            return response()->json($response);
+        }
+
+        return \response()->json([
+            "status" => "invalid"
+        ])->setStatusCode(422);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
+
+
+
+
 }

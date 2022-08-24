@@ -32,10 +32,10 @@ class PaymentRepo
             "site_share" => $data['site_share'],
         ]);
 
-        // foreach ($discounts as $discount) $discountIds[] = $discount->id;
+        foreach ($discounts as $discount) $discountIds[] = $discount->id;
 
-        // if (isset($discountIds))
-        //     $payment->discounts()->sync($discountIds);
+        if (isset($discountIds))
+            $payment->discounts()->sync($discountIds);
 
         return $payment;
     }

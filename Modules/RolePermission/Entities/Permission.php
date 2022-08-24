@@ -21,6 +21,9 @@ class Permission extends PermissionPackage
     const PERMISSION_MANAGE_ROLE_PERMISSIONS = 'manage_role_permissions';
     const PERMISSION_MANAGE_PAYMENTS = 'manage_payments';
     const PERMISSION_MANAGE_SETTLEMENTS = 'manage_settlements';
+    const PERMISSION_MANAGE_DISCOUNT = 'manage_discounts';
+    const PERMISSION_MANAGE_TICKETS = "manage_tickets";
+    const PERMISSION_MANAGE_COMMENTS = "manage_comments";
     const PERMISSION_TEACH = 'teach';
     const PERMISSION_SUPER_ADMIN = 'super_admin';
 
@@ -33,7 +36,10 @@ class Permission extends PermissionPackage
         self::PERMISSION_MANAGE_OWN_COURSES,
         self::PERMISSION_MANAGE_USERS,
         self::PERMISSION_MANAGE_PAYMENTS,
-        self::PERMISSION_MANAGE_SETTLEMENTS
+        self::PERMISSION_MANAGE_SETTLEMENTS,
+        self::PERMISSION_MANAGE_DISCOUNT,
+        self::PERMISSION_MANAGE_TICKETS,
+        self::PERMISSION_MANAGE_COMMENTS
     ];
 
 }

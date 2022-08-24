@@ -189,12 +189,12 @@ class CourseController extends Controller
         }
         $amount = $course->price;
 
-        // [$amount, $discounts] = $course->getFinalPrice(request()->code, true);
-        // if ($amount <= 0){
-        //     $courseRepo->addStudentToCourse($course, auth()->id());
-        //     return redirect($course->path())->with('swal-success','شما با موفقیت در دوره ثبت نام کردید.');
-        // }
-        $payment = PaymentService::generate($amount, $course, auth()->user(), $course->teacher_id, $discounts=0);
+        [$amount, $discounts] = $course->getFinalPrice(request()->code, true);
+        if ($amount <= 0){
+            $courseRepo->addStudentToCourse($course, auth()->id());
+            return redirect($course->path())->with('swal-success','شما با موفقیت در دوره ثبت نام کردید.');
+        }
+        $payment = PaymentService::generate($amount, $course, auth()->user(), $course->teacher_id, $discounts);
 
         resolve(Gateway::class)->redirect($payment->invoice_id);
     }

@@ -205,7 +205,7 @@
                             <input type="text" name="code" id="code" class="txt" placeholder="کد تخفیف را وارد کنید">
                             <p id="response"></p>
                         </div>
-                        <button type="button" class="btn i-t " onclick="checkDiscountCode()">اعمال
+                        <button type="button" class="btn i-t" onclick="checkDiscountCode()">اعمال
                             <img src="/img/loading.gif" alt="" id="loading" class="loading d-none">
                         </button>
 
@@ -241,10 +241,9 @@
         {{-- @include("front::comments.index", ["commentable" => $course]) --}}
     </main>
 @endsection
-
 @section('js')
     <script src="/js/modal.js"></script>
-    {{-- <script>
+    <script>
         function checkDiscountCode() {
             $("#loading").removeClass("d-none")
             const code = $("#code").val();
@@ -253,25 +252,20 @@
             $("#response").text("")
             $.get(url.replace("code", code))
                 .done(function (data) {
-                    $("#discountPercent").text( parseInt($("#discountPercent").attr("data-value")) +  data.discountPercent)
+                    $("#discountPercent").text(parseInt($("#discountPercent").attr("data-value")) +  data.discountPercent)
                     $("#discountAmount").text(parseInt($("#discountAmount").attr("data-value")) + data.discountAmount)
                     $("#payableAmount").text(parseInt($("#payableAmount").attr("data-value")) - data.discountAmount)
                     $("#response").text("کد تخفیف با موفقیت اعمال شد.").removeClass("text-error").addClass("text-success")
                 })
                 .fail(function (data) {
-                    $("#response").text("کد وارده شده برای این درس معتبر نیست.").removeClass("text-success").addClass("text-error")
+                    $("#response").text("کد وارده شده برای این دوره معتبر نیست.").removeClass("text-success").addClass("text-error")
                 })
                 .always(function () {
                     $("#loading").addClass("d-none")
                 })
         }
-    </script> --}}
+    </script>
 @endsection
-
-@section('js')
-    <script src="/js/modal.js"></script>
-@endsection
-
 @section('css')
     <link rel="stylesheet" href="/css/modal.css">
 @endsection

@@ -255,11 +255,11 @@ function doMultipleAction(route, message, method) {
     $('.create-ads .ads-field-banner').on('click', function (e) {
         $('.file-upload').show()
     });
-    $('.discounts #discounts-field-2').on('click', function (e) {
-        $('.discounts .dropdown-select').addClass('is-active')
+    $('#discounts-field-2').on('click', function (e) {
+        $('#selectCourseContainer').removeClass('d-none')
     });
-    $('.discounts #discounts-field-1').on('click', function (e) {
-        $('.discounts .dropdown-select').removeClass('is-active')
+    $('#discounts-field-1').on('click', function (e) {
+        $('#selectCourseContainer').addClass('d-none')
     });
 
 function deleteItem(event, route, element = 'tr') {

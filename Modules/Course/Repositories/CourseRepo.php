@@ -5,11 +5,6 @@ namespace Modules\Course\Repositories;
 use Str;
 use Modules\Course\Entities\Course;
 use Modules\Course\Entities\Lesson;
-
-
-
-
-
 class CourseRepo
 {
 
@@ -118,6 +113,16 @@ class CourseRepo
     public function getCourseStudentById(Course $course, $studentId)
     {
         return $course->students()->where("id", $studentId)->first();
+    }
+
+    public function getAll(string $status = null)
+    {
+        $query = Course::query();
+        if ($status) $query->where("confirmation_status", $status);
+
+        return $query
+            ->latest()
+            ->get();
     }
 
 

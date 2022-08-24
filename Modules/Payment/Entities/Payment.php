@@ -4,6 +4,7 @@ namespace Modules\Payment\Entities;
 
 use Modules\User\Entities\User;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Discount\Entities\Discount;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Payment extends Model

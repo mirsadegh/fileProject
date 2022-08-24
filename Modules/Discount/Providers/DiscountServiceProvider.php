@@ -2,8 +2,12 @@
 
 namespace Modules\Discount\Providers;
 
+use Gate;
 use Illuminate\Support\ServiceProvider;
+use Modules\Discount\Entities\Discount;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Discount\Policies\DiscountPolicy;
+use Modules\RolePermission\Entities\Permission;
 
 class DiscountServiceProvider extends ServiceProvider
 {
@@ -28,6 +32,7 @@ class DiscountServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->showSidebar();
     }
 
     /**
@@ -38,6 +43,7 @@ class DiscountServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        Gate::policy(Discount::class, DiscountPolicy::class);
     }
 
     /**
@@ -86,6 +92,7 @@ class DiscountServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
         } else {
             $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
+            $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
         }
     }
 
@@ -108,5 +115,16 @@ class DiscountServiceProvider extends ServiceProvider
             }
         }
         return $paths;
+    }
+    public function showSidebar()
+    {
+        config()->set('sidebar.items.discounts',[
+             "icon"  => "i-discounts",
+             "title" => "تخفیف ها",
+             "url"   => url('discounts'),
+             "permission" => [
+                "permission" => Permission::PERMISSION_MANAGE_DISCOUNT
+             ]
+        ]);
     }
 }
