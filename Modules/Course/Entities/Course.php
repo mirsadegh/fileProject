@@ -4,6 +4,7 @@ namespace Modules\Course\Entities;
 
 use Modules\User\Entities\User;
 use Modules\Media\Entities\Media;
+use Modules\Ticket\Entities\Ticket;
 use Modules\Payment\Entities\Payment;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Category\Entities\Category;
@@ -62,6 +63,11 @@ class Course extends Model
     public function lessons()
     {
         return $this->hasMany(Lesson::class);
+    }
+
+    public function tickets()
+    {
+        return $this->morphMany(Ticket::class,"ticketable");
     }
 
     public function category()

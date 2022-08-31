@@ -4,7 +4,9 @@ namespace Modules\User\Entities;
 
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Media\Entities\Media;
+use Modules\Ticket\Entities\Reply;
 use Modules\Course\Entities\Course;
+use Modules\Ticket\Entities\Ticket;
 use Modules\Payment\Entities\Payment;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -133,6 +135,16 @@ class User extends Authenticatable
     public function settlements()
     {
         return $this->hasMany(Settlement::class);
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    public function ticketReplies()
+    {
+       return $this->hasMany(Reply::class);
     }
 
 
