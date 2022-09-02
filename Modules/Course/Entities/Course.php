@@ -5,9 +5,11 @@ namespace Modules\Course\Entities;
 use Modules\User\Entities\User;
 use Modules\Media\Entities\Media;
 use Modules\Ticket\Entities\Ticket;
+use Modules\Comment\Entities\Comment;
 use Modules\Payment\Entities\Payment;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Category\Entities\Category;
+use Modules\Comment\Traits\HasComments;
 use Modules\Discount\Entities\Discount;
 use Modules\Course\Repositories\CourseRepo;
 use Modules\Discount\Services\DiscountService;
@@ -17,6 +19,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Course extends Model
 {
     use HasFactory;
+    use HasComments;
 
     protected $guarded = ['id'];
 
@@ -202,6 +205,8 @@ class Course extends Model
 
         return $links;
     }
+
+
 
 
 }

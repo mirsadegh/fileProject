@@ -12,5 +12,6 @@
     "Front": true,
     "Payment": true,
     "Discount": true,
-    "Ticket": true
+    "Ticket": true,
+    "Comment": true
 }

@@ -7,6 +7,7 @@ use Modules\Media\Entities\Media;
 use Modules\Ticket\Entities\Reply;
 use Modules\Course\Entities\Course;
 use Modules\Ticket\Entities\Ticket;
+use Modules\Comment\Entities\Comment;
 use Modules\Payment\Entities\Payment;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -146,6 +147,12 @@ class User extends Authenticatable
     {
        return $this->hasMany(Reply::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 
 
     public function profilePath()

@@ -238,7 +238,7 @@
                 </div>
             </div>
         </div>
-        {{-- @include("front::comments.index", ["commentable" => $course]) --}}
+        @include("front::comments.index", ["commentable" => $course])
     </main>
 @endsection
 @section('js')
