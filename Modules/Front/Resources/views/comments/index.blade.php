@@ -5,7 +5,7 @@
         @else
             <div class="comment-main">
                 <div class="ct-header">
-                    <p>برای ثبت دیدگاه باید ابتدا <a href="{{ route("login") }}">وارد سایت</a> شوید</p>
+                    <p>برای ثبت دیدگاه باید ابتدا <a href="{{ route("auth.login-register") }}">وارد سایت</a> شوید</p>
                 </div>
             </div>
         @endauth

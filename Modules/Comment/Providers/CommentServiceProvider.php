@@ -2,8 +2,12 @@
 
 namespace Modules\Comment\Providers;
 
+use Illuminate\Support\Facades\Gate;
+use Modules\Comment\Entities\Comment;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Comment\Policies\CommentPolicy;
+use Modules\RolePermission\Entities\Permission;
 
 class CommentServiceProvider extends ServiceProvider
 {
@@ -28,6 +32,7 @@ class CommentServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->showSidebar();
     }
 
     /**
@@ -38,6 +43,8 @@ class CommentServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+
+        Gate::policy(Comment::class,CommentPolicy::class);
     }
 
     /**
@@ -86,6 +93,7 @@ class CommentServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
         } else {
             $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
+            $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
         }
     }
 
@@ -109,4 +117,14 @@ class CommentServiceProvider extends ServiceProvider
         }
         return $paths;
     }
+
+      public function showSidebar()
+      {
+        config()->set('sidebar.items.comments', [
+            "icon" => "i-comments",
+            "title" => "نظرات",
+            "url" => url('comments'),
+            "permission" => [Permission::PERMISSION_MANAGE_COMMENTS, Permission::PERMISSION_TEACH]
+        ]);
+      }
 }

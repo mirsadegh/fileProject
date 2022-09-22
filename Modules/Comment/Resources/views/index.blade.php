@@ -1,4 +1,4 @@
-@extends('Dashboard::master')
+@extends('dashboard::master')
 @section('breadcrumb')
     <li><a href="{{ route('comments.index') }}" title="نظرات">نظرات</a></li>
 @endsection
@@ -53,10 +53,10 @@
                 <td>
                     <a href="{{ route("comments.show", $comment->id) }}" class="item-eye mlg-15" title="مشاهده"></a>
                     @if(auth()->user()->hasAnyPermission(
-                        \Cyaxaress\RolePermissions\Models\Permission::PERMISSION_SUPER_ADMIN,
-                        \Cyaxaress\RolePermissions\Models\Permission::PERMISSION_MANAGE_COMMENTS))
-                    <a href="" onclick="deleteItem(event, '{{ route('comments.destroy', $comment->id) }}')" class="item-delete mlg-15" title="حذف"></a>
-                    <a href="" onclick="updateConfirmationStatus(event, '{{ route('comments.accept', $comment->id) }}',
+                        \Modules\RolePermission\Entities\Permission::PERMISSION_SUPER_ADMIN,
+                        \Modules\RolePermission\Entities\Permission::PERMISSION_MANAGE_COMMENTS))
+                    <a onclick="deleteItem(event, '{{ route('comments.destroy', $comment->id) }}')" class="item-delete mlg-15" title="حذف"></a>
+                    <a onclick="updateConfirmationStatus(event, '{{ route('comments.accept', $comment->id) }}',
                         'آیا از تایید این آیتم اطمینان دارید؟' , 'تایید شده')"
                        class="item-confirm mlg-15" title="تایید"></a>
                     <a href="" onclick="updateConfirmationStatus(event, '{{ route('comments.reject', $comment->id) }}',
@@ -73,6 +73,6 @@
 
 @section('js')
     <script>
-        @include('Common::layouts.feedbacks')
+        @include('common::layouts.feedbacks')
     </script>
 @endsection

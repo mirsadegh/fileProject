@@ -309,6 +309,7 @@ function deleteItem(event, route, element = 'tr') {
 }
 
 function updateConfirmationStatus(event, route, message, status, field = 'confirmation_status', parent = 'tr', target = 'td.') {
+
     event.preventDefault();
     Swal.fire({
         title: status,
@@ -320,7 +321,7 @@ function updateConfirmationStatus(event, route, message, status, field = 'confir
         cancelButtonColor: '#d33',
         reverseButtons: true
     }).then((result) => {
-
+       
         if (result.value == true) {
             $.post(route, { _method: "PATCH", _token: $('meta[name="_token"]').attr('content') })
                 .done(function (response) {

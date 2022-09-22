@@ -1,4 +1,4 @@
-@extends('Dashboard::master')
+@extends('dashboard::master')
 @section('breadcrumb')
     <li><a href="{{ route('comments.index') }}" title="نظرات">نظرات</a></li>
 @endsection
@@ -13,14 +13,14 @@
                     </div>
                 </div>
             </div>
-            @include("Comments::comment", ["comment" => $comment, "isAnswer" => false])
+            @include("comment::comment", ["comment" => $comment, "isAnswer" => false])
             @foreach($comment->comments as $reply)
-                @include("Comments::comment", ["comment" => $reply, "isAnswer" => true])
+                @include("comment::comment", ["comment" => $reply, "isAnswer" => true])
             @endforeach
         </div>
         <div class="answer-comment">
             <p class="p-answer-comment">ارسال پاسخ</p>
-            @if($comment->status == \Cyaxaress\Comment\Models\Comment::STATUS_APPROVED)
+            @if($comment->status == \Modules\Comment\Entities\Comment::STATUS_APPROVED)
             <form action="{{ route("comments.store") }}" method="post">
                 @csrf
                 <input type="hidden" name="comment_id" value="{{ $comment->id }}">

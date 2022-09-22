@@ -3,7 +3,8 @@
 namespace Modules\Comment\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+
+use App\Http\Controllers\Controller;
 use Modules\Comment\Entities\Comment;
 use Modules\Common\Responses\AjaxResponses;
 use Illuminate\Contracts\Support\Renderable;
@@ -30,14 +31,14 @@ class CommentController extends Controller
 
         $comments = $comments->paginateParents();
 
-        return view("Comments::index", compact("comments"));
+        return view("comment::index", compact("comments"));
     }
 
     public function show($comment)
     {
         $comment = Comment::query()->where("id", $comment)->with("commentable", "user", "comments")->firstOrFail();
         $this->authorize('view', $comment);
-        return view("Comments::show", compact("comment"));
+        return view("comment::show", compact("comment"));
     }
 
     public function store(CommentRequest $request, CommentRepo $repo)
