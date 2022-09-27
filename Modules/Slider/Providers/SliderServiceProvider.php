@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\Common\Providers;
+namespace Modules\Slider\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class CommonServiceProvider extends ServiceProvider
+class SliderServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'Common';
+    protected $moduleName = 'Slider';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'common';
+    protected $moduleNameLower = 'slider';
 
     /**
      * Boot the application events.
@@ -28,11 +28,6 @@ class CommonServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
-
-        view()->composer("dashboard::layout.header",function($view){
-           $notifications = auth()->user()->unreadNotifications;
-           return $view->with(compact("notifications"));
-        });
     }
 
     /**

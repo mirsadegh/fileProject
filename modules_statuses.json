@@ -13,5 +13,6 @@
     "Payment": true,
     "Discount": true,
     "Ticket": true,
-    "Comment": true
+    "Comment": true,
+    "Slider": true
 }

@@ -10,6 +10,9 @@ use Modules\Common\Responses\AjaxResponses;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Comment\Repositories\CommentRepo;
 use Modules\RolePermission\Entities\Permission;
+use Modules\Comment\Events\CommentApprovedEvent;
+use Modules\Comment\Events\CommentRejectedEvent;
+use Modules\Comment\Events\CommentSubmittedEvent;
 use Modules\Comment\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
@@ -43,7 +46,9 @@ class CommentController extends Controller
 
     public function store(CommentRequest $request, CommentRepo $repo)
     {
+
         $comment = $repo->store($request->all());
+
         event(new CommentSubmittedEvent($comment));
         newFeedback("عملیات موفقیت آمیز", "دیدگاه شما با موفقیت ثبت گردید.");
         return back();

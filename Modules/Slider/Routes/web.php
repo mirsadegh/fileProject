@@ -11,7 +11,6 @@
 |
 */
 
-Route::prefix('common')->group(["middleware" =>"auth"],function() {
-    Route::get('/notification/mark-as-read', 'NotificationController@markAllAsRead')->name("notifications.markAllAsRead");
-
+Route::prefix('slider')->group(function() {
+    Route::get('/', 'SliderController@index');
 });
