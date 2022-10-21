@@ -53,11 +53,12 @@ class CommentRepo
 
     public function paginateParents($status = null)
     {
-       $query = Comment::query()->whereNull("comment_id")->withCount("notApprovedComments");
-       if ($status){
-           $query->where("status", $status);
-       }
-        return $this->query->latest()->paginate();
+        if ($status){
+            $comments = Comment::query()->whereNull("comment_id")->where("status", $status)->withCount("notApprovedComments")->latest()->paginate(5)->withQueryString();
+        }else{
+            $comments = Comment::query()->whereNull("comment_id")->withCount("notApprovedComments")->latest()->paginate(5)->withQueryString();
+        }
+        return $comments;
     }
 
     public function updateStatus($id, string $status)

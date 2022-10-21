@@ -5,6 +5,7 @@ namespace Modules\Front\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Category\Repositories\CatRepo;
+use Modules\Slider\Repositories\SlideRepo;
 use Modules\Course\Repositories\CourseRepo;
 
 class FrontServiceProvider extends ServiceProvider
@@ -47,6 +48,11 @@ class FrontServiceProvider extends ServiceProvider
         view()->composer('front::layout.latestCourses',function($view){
            $latestCourses = resolve(CourseRepo::class)->latestCourses();
            $view->with(compact('latestCourses'));
+        });
+
+        view()->composer('front::layout.slider', function ($view) {
+            $slides = (new SlideRepo())->all();
+            $view->with(compact('slides'));
         });
     }
 

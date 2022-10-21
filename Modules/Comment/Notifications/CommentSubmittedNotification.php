@@ -26,8 +26,8 @@ class CommentSubmittedNotification extends Notification
             "mail",
             "database"
         ];
-        if (!empty($notifiable->telegram)) $channels[] = TelegramChannel::class;
-        if (!empty($notifiable->mobile)) $channels[] = KavenegarChannel::class;
+    
+        // if (!empty($notifiable->mobile)) $channels[] = KavenegarChannel::class;
 
         return $channels;
     }
@@ -37,15 +37,6 @@ class CommentSubmittedNotification extends Notification
         return (new CommentSubmittedMail($this->comment))->to($notifiable->email);
     }
 
-    public function toTelegram($notifiable)
-    {
-        if (!empty($notifiable->telegram))
-        return TelegramMessage::create()
-            ->to($notifiable->telegram)
-            ->content("یک دیدگاه جدید برای دوره ی شما در وب آموز ارسال شده است.")
-            ->button('مشاهده دوره', $this->comment->commentable->path())
-            ->button('مدیریت دیدگاه ها', route("comments.index"));
-    }
 
     public function toSMS($notifiable)
     {

@@ -36,6 +36,12 @@ class FrontController extends Controller
           return view('front::singleCourse', compact('course','lessons','lesson'));
     }
 
+    public function allCourse(CourseRepo $courseRepo)
+    {
+        $courses = $courseRepo->paginate();
+        return view('front::all-courses',compact('courses'));
+    }
+
     public function extractId($slug, $key)
     {
         return Str::before(Str::after($slug, $key .'-'), '-');

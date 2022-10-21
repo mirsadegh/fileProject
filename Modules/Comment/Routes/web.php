@@ -17,9 +17,4 @@ Route::group(["middleware" => "auth"], function ($router){
     $router->patch('comments/{comment}/reject', 'CommentController@reject')->name('comments.reject');
 });
 
-Route::group([], function ($router){
-    $router->get("comments", [
-        "uses" => "CommentController@index",
-        "as" =>("comments.index")
-    ]);
-});
+

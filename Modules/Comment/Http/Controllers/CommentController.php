@@ -4,6 +4,7 @@ namespace Modules\Comment\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Modules\Course\Entities\Course;
 use App\Http\Controllers\Controller;
 use Modules\Comment\Entities\Comment;
 use Modules\Common\Responses\AjaxResponses;
@@ -25,15 +26,13 @@ class CommentController extends Controller
             ->searchEmail(request("email"))
             ->searchName(request("name"))
             ->searchStatus(request("status"));
-
         if (!auth()->user()->hasAnyPermission(Permission::PERMISSION_MANAGE_COMMENTS, Permission::PERMISSION_SUPER_ADMIN)) {
+
             $comments->query->whereHasMorph("commentable", [Course::class] , function ($query) {
                 return $query->where("teacher_id", auth()->id());
             })->where("status", Comment::STATUS_APPROVED);
         }
-
-        $comments = $comments->paginateParents();
-
+        $comments = $comments->paginateParents(request()->status);
         return view("comment::index", compact("comments"));
     }
 
@@ -48,7 +47,7 @@ class CommentController extends Controller
     {
 
         $comment = $repo->store($request->all());
-
+         
         event(new CommentSubmittedEvent($comment));
         newFeedback("عملیات موفقیت آمیز", "دیدگاه شما با موفقیت ثبت گردید.");
         return back();

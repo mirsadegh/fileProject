@@ -44,9 +44,9 @@
             @foreach($comments as $comment)
             <tr role="row" >
                 <td><a href="">{{ $comment->id }}</a></td>
-                <td><a href="">{{ $comment->user->name }}</a></td>
+                <td><a href="">{{ $comment->user->name ?? $comment->user->email }}</a></td>
                 <td><a href="{{ $comment->commentable->path() }}">{{ $comment->commentable->title }}</a></td>
-                <td>{{ $comment->body }}</td>
+                <td>{{ Illuminate\Support\Str::limit($comment->body,25)  }}</td>
                 <td>{{ \Morilog\Jalali\Jalalian::fromCarbon($comment->created_at) }}</td>
                 <td>{{ $comment->comments()->count() }} ({{ $comment->not_approved_comments_count }})</td>
                 <td class="confirmation_status {{ $comment->getStatusCssClass() }}">@lang($comment->status)</td>
@@ -68,6 +68,9 @@
             @endforeach
             </tbody>
         </table>
+    </div>
+    <div>
+        {{ $comments->links() }}
     </div>
 @endsection
 

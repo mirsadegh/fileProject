@@ -11,6 +11,8 @@
 |
 */
 
-Route::prefix('slider')->group(function() {
-    Route::get('/', 'SliderController@index');
+
+
+Route::group(["middleware" => ["auth"]], function ($router){
+    $router->resource("slides", "SliderController");
 });

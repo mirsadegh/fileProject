@@ -27,7 +27,7 @@
                             </div>
                             <div class="comment-header-detail">
                                 <div class="comment-header-name">کاربر : {{ $comment->user->name }}</div>
-                                <div class="comment-header-date">{{ $comment->created_at }}</div>
+                                <div class="comment-header-date">{{  \Morilog\Jalali\Jalalian::fromCarbon($comment->created_at)->ago() }}</div>
                             </div>
                         </div>
                         <div class="comment-content">
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="comment-header-detail">
                                     <div class="comment-header-name">{{ $reply->user->name }}</div>
-                                    <div class="comment-header-date">10 روز پیش</div>
+                                    <div class="comment-header-date">{{  \Morilog\Jalali\Jalalian::fromCarbon($reply->created_at)->ago() }}</div>
                                 </div>
                             </div>
                             <div class="comment-content">

@@ -13,6 +13,7 @@
 
 Route::prefix('front')->group(function() {
     Route::get('/', 'FrontController@index');
+    Route::get('all-course','FrontController@allCourse')->name('allCourse');
     Route::get('/c-{slug}','FrontController@singleCourse')->name('singleCourse');
     Route::get('/tutors/{id}', 'FrontController@singleTutor')->name('singleTutor');
 });

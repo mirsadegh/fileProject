@@ -28,11 +28,15 @@ class CommonServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
-
-        view()->composer("dashboard::layout.header",function($view){
+       
+          view()->composer("dashboard::layout.header",function($view){
            $notifications = auth()->user()->unreadNotifications;
            return $view->with(compact("notifications"));
-        });
+          });
+
+
+
+
     }
 
     /**

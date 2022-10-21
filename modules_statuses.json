@@ -14,5 +14,6 @@
     "Discount": true,
     "Ticket": true,
     "Comment": true,
-    "Slider": true
+    "Slider": true,
+    "Blog": true
 }

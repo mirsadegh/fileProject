@@ -1,3 +1,4 @@
+@if(auth()->user())
 <form action="{{ route('admin.users.photo')}}" method="post" enctype="multipart/form-data">
 <div class="profile__info border cursor-pointer text-center">
 
@@ -11,4 +12,5 @@
 
     <span class="profile__name">کاربر :  {{ auth()->user()->name }}</span>
 </div>
-    </form>
+</form>
+@endif

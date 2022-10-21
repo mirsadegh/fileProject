@@ -6,9 +6,8 @@
         @include('front::layout.header-ads')
         @include('front::layout.top-info')
         @include('front::layout.latestCourses')
-        @include('front::layout.popularCourses')
     </article>
-    @include('front::layout.latestArticles')
+    @include('blog::index')
 </main>
 
 @endsection

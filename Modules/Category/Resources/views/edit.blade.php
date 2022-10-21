@@ -1,7 +1,7 @@
 @extends('dashboard::master')
 
 @section('breadcrumb')
-<li><a href="{{ route('admin.categories.index') }}" title="دسته بندی">دسته بندی</a></li>
+<li><a href="{{ route('categories.index') }}" title="دسته بندی">دسته بندی</a></li>
 <li><a href="#" title="ویرایش دسته بندی">ویرایش دسته بندی</a></li>
 @endsection
 
@@ -9,7 +9,7 @@
     <div class="row no-gutters  ">
        <div class="col-4 bg-white">
         <p class="box__title"> ویرایش دسته بندی</p>
-        <form action="{{ route('admin.categories.update', $category->id) }}" method="post" class="padding-30">
+        <form action="{{ route('categories.update', $category->id) }}" method="post" class="padding-30">
             @csrf
             @method('patch')
             <input type="text" name='title' placeholder="نام دسته بندی" class="text" value="{{ $category->title }}">

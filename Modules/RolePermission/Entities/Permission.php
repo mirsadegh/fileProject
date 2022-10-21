@@ -25,6 +25,7 @@ class Permission extends PermissionPackage
     const PERMISSION_MANAGE_TICKETS = "manage_tickets";
     const PERMISSION_MANAGE_COMMENTS = "manage_comments";
     const PERMISSION_TEACH = 'teach';
+    const PERMISSION_MANAGE_SLIDES = 'manage_slides';
     const PERMISSION_SUPER_ADMIN = 'super_admin';
 
     static $permissions = [
@@ -39,7 +40,8 @@ class Permission extends PermissionPackage
         self::PERMISSION_MANAGE_SETTLEMENTS,
         self::PERMISSION_MANAGE_DISCOUNT,
         self::PERMISSION_MANAGE_TICKETS,
-        self::PERMISSION_MANAGE_COMMENTS
+        self::PERMISSION_MANAGE_COMMENTS,
+        self::PERMISSION_MANAGE_SLIDES
     ];
 
 }

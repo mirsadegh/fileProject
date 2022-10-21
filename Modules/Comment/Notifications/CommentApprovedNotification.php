@@ -27,7 +27,7 @@ class CommentApprovedNotification extends Notification
     {
         $channels[] = 'mail';
         $channels[] = "database";
-        if (!empty($notifiable->telegram)) $channels[] = TelegramChannel::class;
+       
         return $channels;
     }
 
@@ -39,14 +39,7 @@ class CommentApprovedNotification extends Notification
                     ->line('Thank you for using our application!');
     }
 
-    public function toTelegram($notifiable)
-    {
-        if (!empty($notifiable->telegram))
-            return TelegramMessage::create()
-                ->to($notifiable->telegram)
-                ->content("دیدگاه شما تایید شد.")
-                ->button('مشاهده دوره', $this->comment->commentable->path());
-    }
+
 
     public function toArray($notifiable)
     {

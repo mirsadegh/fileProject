@@ -74,7 +74,7 @@
 
 @section('js')
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<script src="/panel/js/jquery.modal.min.js"></script>
 <script>
     function setFormAction(userId) {
         $("#select-role-form").attr('action', '{{ route('admin.users.addRole', 0) }}'.replace('/0/', '/' + userId + '/' ))
@@ -87,6 +87,6 @@
 @endsection
 
 @section('css')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<link rel="stylesheet" href="/panel/css/jquery.modal.min.css" />
 
 @endsection

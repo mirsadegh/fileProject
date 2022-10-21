@@ -4,7 +4,7 @@
      <x-user-photo />
 
     <ul>
-
+         @if(auth()->user())
          @foreach (config('sidebar.items') as $sidebarItem)
 
             @if (!array_key_exists('permission',$sidebarItem) ||
@@ -15,6 +15,7 @@
               </li>
             @endif
          @endforeach
+         @endif
     </ul>
 
 </div>

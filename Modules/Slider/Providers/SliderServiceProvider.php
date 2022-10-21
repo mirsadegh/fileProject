@@ -2,8 +2,12 @@
 
 namespace Modules\Slider\Providers;
 
+use Modules\Slider\Entities\Slide;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Modules\Slider\Policies\SlidePolicy;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\RolePermission\Entities\Permission;
 
 class SliderServiceProvider extends ServiceProvider
 {
@@ -28,6 +32,7 @@ class SliderServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->showSideBar();
     }
 
     /**
@@ -38,6 +43,8 @@ class SliderServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+
+        Gate::policy(Slide::class,SlidePolicy::class);
     }
 
     /**
@@ -108,5 +115,18 @@ class SliderServiceProvider extends ServiceProvider
             }
         }
         return $paths;
+    }
+
+    public function showSidebar()
+    {
+        config()->set('sidebar.items.slider',[
+             "icon"  => "i-courses",
+             "title" => "اسلایدر",
+             "url"   => url('slides'),
+             "permission" => [
+                Permission::PERMISSION_MANAGE_SLIDES,
+
+             ]
+        ]);
     }
 }

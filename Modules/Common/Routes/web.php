@@ -11,7 +11,7 @@
 |
 */
 
-Route::prefix('common')->group(["middleware" =>"auth"],function() {
+Route::group(["middleware" =>"auth"],function() {
     Route::get('/notification/mark-as-read', 'NotificationController@markAllAsRead')->name("notifications.markAllAsRead");
 
 });
