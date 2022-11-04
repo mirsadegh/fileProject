@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('tags');
             $table->timestamp('published_at');
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('media_id')->constrained('media');
+            // $table->foreignId('media_id')->constrained('media');
+            $table->foreignId('media_id')->nullable()->constrained("media")->cascadeOnUpdate()->nullOnDelete();
             $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();
             $table->softDeletes();

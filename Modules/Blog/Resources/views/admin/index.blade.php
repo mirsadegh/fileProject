@@ -36,7 +36,7 @@
                     <th>شناسه</th>
                     <th>عنوان</th>
                     <th>نویسنده</th>
-                    <th>متن</th>
+                    <th>خلاصه متن</th>
                     <th>تاریخ ایجاد</th>
                     <th>تعداد بازدید ها</th>
                     <th>تعداد نظرات</th>
@@ -44,38 +44,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr role="row" class="">
-                    <td><a href="">1</a></td>
-                    <td><a href="">فریم ورک لاراول چیست</a></td>
-                    <td>توفیق حمزئی</td>
-                    <td>فریم ورک لاراول یکی از فریم ورک های محبوب ...</td>
-                    <td>1399/11/11</td>
-                    <td>101</td>
-                    <td>10</td>
-                    <td>
-                        <a href="" class="item-delete mlg-15" title="حذف"></a>
-                        <a href="" class="item-reject mlg-15" title="رد"></a>
-                        <a href="" target="_blank" class="item-eye mlg-15" title="مشاهده"></a>
-                        <a href="" class="item-confirm mlg-15" title="تایید"></a>
-                        <a href="" class="item-edit" title="ویرایش"></a>
-                    </td>
-                </tr>
-                <tr role="row" class="">
-                    <td><a href="">1</a></td>
-                    <td><a href="">فریم ورک لاراول چیست</a></td>
-                    <td>توفیق حمزئی</td>
-                    <td>فریم ورک لاراول یکی از فریم ورک های محبوب ...</td>
-                    <td>1399/11/11</td>
-                    <td>101</td>
-                    <td>10</td>
-                    <td>
-                        <a href="" class="item-delete mlg-15" title="حذف"></a>
-                        <a href="" class="item-reject mlg-15" title="رد"></a>
-                        <a href="" target="_blank" class="item-eye mlg-15" title="مشاهده"></a>
-                        <a href="" class="item-confirm mlg-15" title="تایید"></a>
-                        <a href="" class="item-edit " title="ویرایش"></a>
-                    </td>
-                </tr>
+                   @foreach ($blogs as $blog)
+                        <tr role="row" class="">
+                            <td>{{ $loop->iteration }}</td>
+                            <td><a href="">{{ $blog->title }}</a></td>
+                            <td>{{ $blog->user->name }} </td>
+                            <td>{{ Str::limit($blog->summary,30) }}</td>
+                            <td>{{ \Morilog\Jalali\Jalalian::fromCarbon($blog->created_at) }}</td>
+                            <td>101</td>
+                            <td>{{ count($blog->comments)  }}</td>
+                            <td>
+
+                               <a onclick="deleteItem(event, '{{ route('blogs.admin.destroy', $blog->id) }}')" class="item-delete mlg-15" title="حذف"></a>
+                                <a href="{{ route("blogs.admin.edit",$blog->id) }}" class="item-edit" title="ویرایش"></a>
+                            </td>
+                        </tr>
+                   @endforeach
+
+
 
 
                 </tbody>

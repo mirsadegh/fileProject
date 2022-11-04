@@ -12,10 +12,7 @@ class Comment extends Model
 
     protected $guarded = ['id'];
 
-    protected static function newFactory()
-    {
-        return \Modules\Comment\Database\factories\CommentFactory::new();
-    }
+   
     const STATUS_NEW = "new";
     const STATUS_APPROVED = "approved";
     const STATUS_REJECTED = "rejected";

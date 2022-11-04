@@ -179,5 +179,10 @@ return [
         'size'                  => 'اندازه',
         'terms'                 => 'شرایط',
         'province'              => 'استان',
+        'category_id'           => 'دسته بندی',
+        'tags'                  => 'تگ',
+        'body'                  => 'متن',
+        'summary'               => 'خلاصه',
+        'image'                  => 'عکس'
     ],
 ];

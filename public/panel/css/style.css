@@ -2322,3 +2322,13 @@ span.tagRemove:hover {
         border-radius: 0.375rem;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
       }
+
+      .bg-danger {
+        --bs-bg-opacity: 1;
+        background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity)) !important;
+      }
+
+      .text-bg-danger {
+        color: #fff !important;
+        background-color: RGBA(220, 53, 69, var(--bs-bg-opacity, 1)) !important;
+      }

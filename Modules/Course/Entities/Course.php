@@ -39,10 +39,7 @@ class Course extends Model
     static $confirmationStatuses = [self::CONFIRMATION_STATUS_ACCEPTED , self::CONFIRMATION_STATUS_PENDING,self::CONFIRMATION_STATUS_REJECTED];
 
 
-    protected static function newFactory()
-    {
-        return \Modules\Course\Database\factories\CourseFactory::new();
-    }
+  
 
     public function banner()
     {
