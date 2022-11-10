@@ -3,6 +3,7 @@
         <h3>نظرات</h3>
         <p>نظر خود را در مورد این مقاله مطرح کنید</p>
     </div>
+    
     <form action="{{ route("comments.store") }}" method="post">
         @csrf
         <input type="hidden" name="commentable_type" value="{{ get_class($commentable) }}">

@@ -4,6 +4,7 @@ namespace Modules\Front\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Modules\Blog\Entities\Blog;
 use Modules\User\Entities\User;
 use Illuminate\Routing\Controller;
 use Modules\Course\Repositories\CourseRepo;
@@ -19,7 +20,8 @@ class FrontController extends Controller
      */
     public function index()
     {
-        return view('front::index');
+        $blogs = Blog::all();
+        return view('front::index',compact('blogs'));
 
     }
 

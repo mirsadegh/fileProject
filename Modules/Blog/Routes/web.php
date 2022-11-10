@@ -18,4 +18,7 @@ Route::prefix('blogs')->group(function() {
     Route::get('/{blog}/edit', 'BlogController@edit')->name('blogs.admin.edit');
     Route::patch('/update/{blog}', 'BlogController@update')->name('blogs.admin.update');
     Route::delete('/delete/{blog}', 'BlogController@destroy')->name('blogs.admin.destroy');
+
+    Route::get('/single/{slug}', 'BlogController@single')->name('blogs.single');
 });
+

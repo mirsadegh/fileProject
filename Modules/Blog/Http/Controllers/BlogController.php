@@ -112,7 +112,7 @@ class BlogController extends Controller
         }
 
         $inputs["media_id"] = MediaFileService::publicUpload($request->file('image'))->id;
-        // dd($inputs["media_id"]);
+
         if ($blog->media)
             $blog->media->delete();
 
@@ -135,5 +135,12 @@ class BlogController extends Controller
        $blog = $this->blogRepo->findOrFail($id);
        $blog->delete();
        return AjaxResponses::SuccessResponse();
+    }
+
+    public function single($slug)
+    {
+         $blog = $this->blogRepo->findBlogBySlug($slug);
+         
+         return view('blog::singleBlog', compact('blog'));
     }
 }

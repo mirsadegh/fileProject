@@ -56,4 +56,9 @@ class BlogRepo
        return Blog::query()->findOrFail($id);
     }
 
+    public function findBlogBySlug($slug)
+    {
+      return  Blog::query()->where("slug",$slug)->first();
+    }
+
 }

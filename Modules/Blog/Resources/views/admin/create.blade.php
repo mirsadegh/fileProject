@@ -25,7 +25,7 @@
                             </span>
                         @enderror
                     </section>
-                 
+
 
                     <section class="col-12 mb-4">
                         <div class="form-group">
@@ -176,18 +176,25 @@
 
 
 @section("js")
-    {{-- <script src="/assets/persianDatePicker/js/persianDatepicker.min.js"></script> --}}
+
     <script src="/js/select2.min.js"></script>
     <script src="{{ asset('panel/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('panel/jalalidatepicker/persian-datepicker.min.js') }}"></script>
-
+     <script src="{{ asset('assets/ckeditor/ckeditor.js') }}"></script>
     <script>
+
         $(document).ready(function(){
             $('#published_at_view').persianDatepicker({
                 format: 'YYYY/MM/DD',
                 altField: '#published_at'
             })
         });
+
+        CKEDITOR.replace("body", {
+           contentsLangDirection: 'rtl'
+} )
+
+
     </script>
 <script>
     $(document).ready(function(){
